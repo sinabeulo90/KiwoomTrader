@@ -13,16 +13,16 @@ class KWCode(object):
         self.code_name = code_name
         self.description = description
     
-    def __repr__(self):
+    def __str__(self):
         if self.description:
-            return "[ %s ] %s : %s" % (self.code_id, self.code_name, self.description)
+            return "%s, %s : %s" % (self.code_id, self.code_name, self.description)
         else:
-            return "[ %s ] %s" % (self.code_id, self.code_name)
+            return "%s, %s" % (self.code_id, self.code_name)
 
     def __eq__(self, other):
         if type(other) is KWCode:
-            if self.code_name == other.code_name    \
-            or self.code_id == other.code_id:
+            if self.code_id == other.code_id    \
+                or self.code_name == other.code_name:
                 return True
         elif type(other) is int:
             if self.code_id == other:
@@ -68,8 +68,13 @@ class KWErrorCode(Enum):
     OP_ERR_ORD_WRONG_ACCTINFO   = KWCode(-340, "OP_ERR_ORD_WRONG_ACCTINFO", "계좌정보없음")
     OP_ERR_ORD_SYMCODE_EMPTY    = KWCode(-500, "OP_ERR_ORD_SYMCODE_EMPTY", "종목코드없음")
 
+    def __str__(self):
+        return "%s, %s" % (self.name, self.value)
+
     def __eq__(self, other):
-        if type(other) == KWCodePkg:
+
+        if type(other) == KWErrorCode   \
+            and type(other.value) == KWCode:
             return self.value == other.value
         elif type(other) is int:
             return self.value == other
