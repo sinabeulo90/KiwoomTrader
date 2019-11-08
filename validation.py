@@ -7,4 +7,3 @@ if __name__ == "__main__":
 
     assert (KWErrorCode.OP_ERR_NONE == KWErrorCode.OP_ERR_NONE)
     assert (KWErrorCode.OP_ERR_NONE != KWErrorCode.OP_ERR_ORD_OVERFLOW0)
-    

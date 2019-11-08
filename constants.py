@@ -12,7 +12,7 @@ class KWCode(object):
         self.code_id = code_id
         self.code_name = code_name
         self.description = description
-    
+
     def __str__(self):
         if self.description:
             return "%s, %s : %s" % (self.code_id, self.code_name, self.description)
@@ -72,11 +72,10 @@ class KWErrorCode(Enum):
         return "%s, %s" % (self.name, self.value)
 
     def __eq__(self, other):
-
         if type(other) == KWErrorCode   \
             and type(other.value) == KWCode:
             return self.value == other.value
         elif type(other) is int:
             return self.value == other
-        
+
         return False

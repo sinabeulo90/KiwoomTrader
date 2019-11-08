@@ -77,7 +77,7 @@ class Kiwoom(QAxWidget):
         """
         self.dynamicCall("CommConnect()")
         self.loop_event_connect.exec_()
-    # !SECTION 
+    # !SECTION
 
 
     # 3) CommRqData -> on_receive_tr_data
@@ -104,7 +104,7 @@ class Kiwoom(QAxWidget):
         """
         self.dynamicCall("CommRqData(QString, QString, int, QString", rq_name, trcode, prev_next, screen_no)
         self.loop_receive_tr_data.exec_()
-        
+
 
     # SECTION 4) GetLoginInfo
     def get_login_info(self, tag):
@@ -124,7 +124,7 @@ class Kiwoom(QAxWidget):
             Ex) openApi.GetLoginInfo("ACCOUNT_CNT");
         """
         return self.dynamicCall("GetLoginInfo(QString)", tag)
-    # !SECTION 
+    # !SECTION
 
 
     # 5) SendOrder
@@ -163,7 +163,7 @@ class Kiwoom(QAxWidget):
         self.dynamicCall("SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)", tag, screen_no, account_no, order_type, code, qty, price, hoga_gb, org_order_no)
         # TODO: event_loop 설정
 
-    
+
     # 6) SendOrderCredit
     def _TODO_send_order_credit(self, rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no):
         """
@@ -188,13 +188,13 @@ class Kiwoom(QAxWidget):
             nOrderType - 주문유형 (1:신규매수, 2:신규매도, 3:매수취소, 4:매도취소, 5:매수정정, 6:매도정정)
             sCode - 주식종목코드
             nQty – 주문수량
-            nPrice – 주문단가 
-            sHogaGb – 거래구분 
-            sCreditGb – 신용구분 
-            sLoanDate – 대출일 
+            nPrice – 주문단가
+            sHogaGb – 거래구분
+            sCreditGb – 신용구분
+            sLoanDate – 대출일
             sOrgOrderNo – 원주문번호
         반환값 : 에러코드 <4.에러코드표 참고>
-        비고 : 
+        비고 :
             sCreditGb – 신용구분 (신용매수:03, 신용매도 융자상환:33,신용매도 융자합:99)
             신용매수 주문
                 - 신용구분값 "03", 대출일은 "공백"
@@ -204,13 +204,13 @@ class Kiwoom(QAxWidget):
             신용매도 융자합 주문시
                 - 신용구분값 "99", 대출일은 "99991231"
                 - 단 신용잔고 5개까지만 융자합 주문가능
-            
+
             나머지 입력값은 SendOrder()함수 설명참고
         """
         self.dynamicCall("SendOrderCredit(QString, QString, QString, int, QString, int, int, QString, QString)", rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no)
         # TODO: event_loop 설정
 
-    
+
     # TODO 테스트 필요
     # 7) SetInputValue
     def set_input_value(self, id, value):
@@ -226,7 +226,7 @@ class Kiwoom(QAxWidget):
                 openApi.SetInputValue("계좌번호", "5015123401");
         """
         self.dynamicCall("SetInputValue(QString, QString)", id, value)
-    
+
 
     # TODO 테스트 필요
     # 10) DisconnectRealData
@@ -264,11 +264,11 @@ class Kiwoom(QAxWidget):
         원형 : LONG CommKwRqData(LPCTSTR sArrCode, BOOL bNext, int nCodeCount, int nTypeFlag, LPCTSTR sRQName, LPCTSTR sScreenNo)
         설명 : 복수종목조회 Tran을 서버로 송신한다.
         입력값 :
-            sArrCode – 종목리스트 
-            bNext – 연속조회요청 
-            nCodeCount – 종목개수 
-            nTypeFlag – 조회구분 
-            sRQName – 사용자구분 명 
+            sArrCode – 종목리스트
+            bNext – 연속조회요청
+            nCodeCount – 종목개수
+            nTypeFlag – 조회구분
+            sRQName – 사용자구분 명
             sScreenNo – 화면번호[4]
         반환값 :
             OP_ERR_RQ_STRING – 요청 전문 작성 실패
@@ -281,7 +281,7 @@ class Kiwoom(QAxWidget):
         self.dynamicCall("CommKwRqData(QString, bool, int, int, QString, QString)", arr_code, next, code_count, type_flag, rq_name, screen_no)
         # TODO: event_loop 설정
 
-    
+
     # SECTION 13) GetAPIModulePath
     def get_api_module_path(self):
         """
@@ -291,7 +291,7 @@ class Kiwoom(QAxWidget):
         반환값 : 경로
         """
         return self.dynamicCall("GetAPIModulePath()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 14) GetCodeListByMarket
@@ -306,9 +306,9 @@ class Kiwoom(QAxWidget):
         ret = self.dynamicCall("GetCodeListByMarket(QString)", market)
 
         return ret.strip().split(';')
-    # !SECTION 
+    # !SECTION
 
-    
+
     # SECTION 15) GetConnectState
     def get_connect_state(self):
         """
@@ -319,7 +319,7 @@ class Kiwoom(QAxWidget):
         비고 : 0:미연결, 1:연결완료
         """
         return self.dynamicCall("GetConnectState()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 16) GetMasterCodeName
@@ -332,7 +332,7 @@ class Kiwoom(QAxWidget):
         비고 : 장내외, 지수선옵, 주식선옵 검색 가능.
         """
         return self.dynamicCall("GetMasterCodeName(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 17) GetMasterListedStockCnt
@@ -344,7 +344,7 @@ class Kiwoom(QAxWidget):
         반환값 : 상장주식수
         """
         return self.dynamicCall("GetMasterListedStockCnt(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 18) GetMasterConstruction
@@ -357,7 +357,7 @@ class Kiwoom(QAxWidget):
         비고 : 감리구분 - 정상, 투자주의, 투자경고, 투자위험, 투자주의환기종목
         """
         return self.dynamicCall("GetMasterConstruction(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 19) GetMasterListedStockDate
@@ -370,7 +370,7 @@ class Kiwoom(QAxWidget):
         비고 :상장일 포멧 – xxxxxxxx[8]
         """
         return self.dynamicCall("GetMasterListedStockDate(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 20) GetMasterLastPrice
@@ -382,7 +382,7 @@ class Kiwoom(QAxWidget):
         반환값 : 전일가
         """
         return self.dynamicCall("GetMasterLastPrice(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 21) GetMasterStockState
@@ -395,7 +395,7 @@ class Kiwoom(QAxWidget):
         비고 : 종목상태 – 정상, 증거금100%, 거래정지, 관리종목, 감리종목, 투자유의종목, 담보대출, 액면분할, 신용가능
         """
         return self.dynamicCall("GetMasterStockState(QString)", code)
-    # !SECTION 
+    # !SECTION
 
 
     # 22) GetDataCount
@@ -413,7 +413,7 @@ class Kiwoom(QAxWidget):
     # 23) GetOutputValue
     def _TODO_get_output_value(self, record_name, repeat_idx, item_idx):
         """
-        원형 : BSTR GetOutputValue(LPCTSTR strRecordName, long nRepeatIdx, long nItemIdx) 
+        원형 : BSTR GetOutputValue(LPCTSTR strRecordName, long nRepeatIdx, long nItemIdx)
         설명 : 레코드의 반복순서와 아이템의 출력순서에 따라 수신데이터를 반환한다.
         입력값 :
             nRepeatIdx – 반복순서
@@ -467,7 +467,7 @@ class Kiwoom(QAxWidget):
         """
         pass
 
-    
+
     # SECTION 27) GetThemeGroupList
     def get_theme_group_list(self, type):
         """
@@ -480,7 +480,7 @@ class Kiwoom(QAxWidget):
             Ex) 100|태양광_폴리실리콘;152|합성섬유
         """
         return self.dynamicCall("GetThemeGroupList(int)", type)
-    # !SECTION 
+    # !SECTION
 
 
     # 28) GetThemeGroupCode
@@ -508,7 +508,7 @@ class Kiwoom(QAxWidget):
             Ex) 101J9000;101JC000
         """
         return self.dynamicCall("GetFutureList()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 30) GetFutureCodeByIndex
@@ -516,14 +516,14 @@ class Kiwoom(QAxWidget):
         """
         원형 : BSTR GetFutureCodeByIndex(int nIndex)
         설명 : 지수선물 코드를 반환한다.
-        입력값 : nIndex – 0~3 지수선물코드, 4~7 지수스프레드 
+        입력값 : nIndex – 0~3 지수선물코드, 4~7 지수스프레드
         반환값 : 종목코드
         비고 :
             Ex) 최근월선물 - openApi.GetFutureCodeByIndex(0);
                 최근월스프레드 - openApi.GetFutureCodeByIndex(4);
         """
         return self.dynamicCall("GetFutureCodeByIndex(int)", index)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 31) GetActPriceList
@@ -535,7 +535,7 @@ class Kiwoom(QAxWidget):
         비고 : 반환값의 행사가간 구분은 ';' Ex) 265.00;262.50;260.00
         """
         return self.dynamicCall("GetActPriceList()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 32) GetMonthList
@@ -549,7 +549,7 @@ class Kiwoom(QAxWidget):
             Ex) 201412;201409;201408;201407;201407;201408;201409;201412
         """
         return self.dynamicCall("GetMonthList()")
-    # !SECTION 
+    # !SECTION
 
 
     # 33) GetOptionCode
@@ -558,8 +558,8 @@ class Kiwoom(QAxWidget):
         원형 : BSTR GetOptionCode(LPCTSTR strActPrice, int nCp, LPCTSTR strMonth)
         설명 : 행사가와 월물 콜풋으로 종목코드를 구한다.
         입력값 :
-            strActPrice – 행사가(소수점포함) 
-            nCp – 콜풋구분 2:콜, 3:풋 
+            strActPrice – 행사가(소수점포함)
+            nCp – 콜풋구분 2:콜, 3:풋
             strMonth – 월물(6자리)
         반환값 : 종목코드
         비고 : Ex) openApi.GetOptionCode("260.00", 2, "201407");
@@ -572,7 +572,7 @@ class Kiwoom(QAxWidget):
         """
         원형 : BSTR GetOptionCodeByMonth(LPCTSTR strCode, int nCp, LPCTSTR strMonth)
         설명 : 입력된 종목코드와 동일한 행사가의 코드중 입력한 월물의 코드를 구한다.
-        입력값 : 
+        입력값 :
             strCode – 종목코드
             nCp – 콜풋구분 2:콜, 3:풋
             strMonth – 월물(6자리)
@@ -604,7 +604,7 @@ class Kiwoom(QAxWidget):
     # 36) GetSFutureList
     def _TODO_get_s_future_list(self, base_asset_code):
         """
-        원형 : BSTR GetSFutureList(LPCTSTR strBaseAssetCode) 
+        원형 : BSTR GetSFutureList(LPCTSTR strBaseAssetCode)
         설명 : 주식선물 코드 리스트를 반환한다.
         입력값 : strBaseAssetCode – 기초자산코드
         반환값 : 종목코드 리스트
@@ -616,11 +616,11 @@ class Kiwoom(QAxWidget):
     # 37) GetSFutureCodeByIndex
     def _TODO_get_s_future_code_by_index(self, base_asset_code, index):
         """
-        원형 : BSTR GetSFutureCodeByIndex(LPCTSTR strBaseAssetCode, int nIndex) 
+        원형 : BSTR GetSFutureCodeByIndex(LPCTSTR strBaseAssetCode, int nIndex)
         설명 : 주식선물 코드를 반환한다.
-        입력값 : 
+        입력값 :
             strBaseAssetCode – 기초자산코드
-            nIndex – 0~3 지수선물코드, 4~7 지수스프레드, 8~11 스타 선물, 12~ 스타 스프레드 
+            nIndex – 0~3 지수선물코드, 4~7 지수스프레드, 8~11 스타 선물, 12~ 스타 스프레드
         반환값 : 종목코드
         비고 : Ex) openApi.GetSFutureCodeByIndex("11", 0);
         """
@@ -631,7 +631,7 @@ class Kiwoom(QAxWidget):
     # 38) GetSActPriceList
     def _TODO_get_s_act_price_list(self, base_asset_gb):
         """
-        원형 : BSTR GetSActPriceList(LPCTSTR strBaseAssetGb) 
+        원형 : BSTR GetSActPriceList(LPCTSTR strBaseAssetGb)
         설명 : 주식옵션 행사가 리스트를 반환한다.
         입력값 : strBaseAssetGb – 기초자산코드구분
         반환값 : 행사가 리스트, 행사가간 구분은 ';'
@@ -658,7 +658,7 @@ class Kiwoom(QAxWidget):
         원형 : BSTR GetSOptionCode(LPCTSTR strBaseAssetGb, LPCTSTR strActPrice, int nCp, LPCTSTR strMonth)
         설명 : 주식옵션 코드를 반환한다.
         입력값 :
-            strBaseAssetGb – 기초자산코드구분 
+            strBaseAssetGb – 기초자산코드구분
             strActPrice – 행사가
             nCp – 콜풋구분
             strMonth – 월물
@@ -673,8 +673,8 @@ class Kiwoom(QAxWidget):
         """
         원형 : BSTR GetSOptionCodeByMonth(LPCTSTR strBaseAssetGb, LPCTSTR strCode, int nCp, LPCTSTR strMonth)
         설명 : 입력한 주식옵션 코드에서 월물만 변경하여 반환한다.
-        입력값 : 
-            strBaseAssetGb – 기초자산코드구분 
+        입력값 :
+            strBaseAssetGb – 기초자산코드구분
             strCode – 종목코드
             nCp – 콜풋구분
             strMonth – 월물
@@ -690,7 +690,7 @@ class Kiwoom(QAxWidget):
         원형 : BSTR GetSOptionCodeByActPrice(LPCTSTR strBaseAssetGb, LPCTSTR strCode, int nCp, int nTick)
         설명 : 입력한 주식옵션 코드에서 행사가만 변경하여 반환한다.
         입력값 :
-            strBaseAssetGb – 기초자산코드구분 
+            strBaseAssetGb – 기초자산코드구분
             strCode – 종목코드
             nCp – 콜풋구분
             nTick– 월물
@@ -711,7 +711,7 @@ class Kiwoom(QAxWidget):
         비고 : Ex) openApi.GetSFOBasisAssetList();
         """
         return self.dynamicCall("GetSFOBasisAssetList()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 44) GetOptionATM
@@ -723,7 +723,7 @@ class Kiwoom(QAxWidget):
         비고 : Ex) openApi.GetOptionATM();
         """
         return self.dynamicCall("GetOptionATM()")
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 46) GetBranchCodeName
@@ -731,11 +731,11 @@ class Kiwoom(QAxWidget):
         """
         원형 : BSTR GetBranchCodeName()
         설명 : 회원사 코드와 이름을 반환합니다.
-        반환값 : 회원사코드|회원사명;회원사코드|회원사명;... 
+        반환값 : 회원사코드|회원사명;회원사코드|회원사명;...
         비고 : Ex) openApi.GetBranchCodeName();
-        """        
+        """
         return self.dynamicCall("GetBranchCodeName()")
-    # !SECTION 
+    # !SECTION
 
 
     # 47) CommInvestRqData
@@ -743,7 +743,7 @@ class Kiwoom(QAxWidget):
         """
         원형 : BSTR CommINvestRqData(LPCTSTR sMarketGb, LPCTSTR sRQName, LPCTSTR sScreenNo)
         설명 : 지원하지 않는 함수
-        입력값 : 
+        입력값 :
             sMarketGb – 시장구분
             001:코스피, 002:코스닥, 003:선물, 004:콜옵션, 005:풋옵션, 006:스타선물 007:주식선물, 008:3년국채, 009:5년국채, 010:10년국채, 011:달러선물, 012:엔선물 013:유로선물, 014:미니금선물, 015:금선물, 016:돈육선물, 017:달러콜옵션, 018:달러풋옵션
             sRQName – 사용자구분값
@@ -771,7 +771,7 @@ class Kiwoom(QAxWidget):
         """
         원형 : SetRealReg(LPCTSTR strScreenNo, LPCTSTR strCodeList, LPCTSTR strFidList, LPCTSTR strRealType)
         설명 : 실시간 등록을 한다.
-        입력값 : 
+        입력값 :
             strScreenNo – 실시간 등록할 화면 번호
             strCodeList – 실시간 등록할 종목코드(복수종목가능 – "종목1;종목2;종목3;....")
             strFidList – 실시간 등록할 FID("FID1;FID2;FID3;.....")
@@ -788,9 +788,9 @@ class Kiwoom(QAxWidget):
     # 50) SetRealRemove
     def _TODO_set_real_remove(self, screen_no, del_code):
         """
-        원형 : Void SetRealRemove(LPCTSTR strScrNo, LPCTSTR strDelCode) 
+        원형 : Void SetRealRemove(LPCTSTR strScrNo, LPCTSTR strDelCode)
         설명 : 종목별 실시간 해제.
-        입력값 : 
+        입력값 :
             strScrNo – 실시간 해제할 화면 번호
             strDelCode – 실시간 해제할 종목.
         반환값 : 통신결과
@@ -819,8 +819,8 @@ class Kiwoom(QAxWidget):
         원형 : BSTR GetConditionNameList()
         설명 : 조건검색 조건명 리스트를 받아온다.
         반환값 : 조건명 리스트(인덱스^조건명)
-        비고 : 
-            조건명 리스트를 구분(";")하여 받아온다. 
+        비고 :
+            조건명 리스트를 구분(";")하여 받아온다.
             Ex) 인덱스1^조건명1;인덱스2^조건명2;인덱스3^조건명3;...
         """
         pass
@@ -848,7 +848,7 @@ class Kiwoom(QAxWidget):
     # 54) SendConditionStop
     def _TODO_send_condition_stop(self, screen_no, condition_name, index):
         """
-        원형 : Void SendConditionStop(LPCTSTR strScrNo, LPCTSTR strConditionName, int nIndex) 
+        원형 : Void SendConditionStop(LPCTSTR strScrNo, LPCTSTR strConditionName, int nIndex)
         설명 : 조건검색 실시간 중지TR을 송신한다.
         입력값 :
             LPCTSTR strScrNo : 화면번호 LPCTSTR strConditionName : 조건명
@@ -868,7 +868,7 @@ class Kiwoom(QAxWidget):
         입력값 :
             LPCTSTR strTrCode : 조회한TR코드
             LPCTSTR strRecordName: 조회한 TR명
-        비고 : 
+        비고 :
             조회 데이터가 많은 차트 경우 GetCommData()로 항목당 하나씩 받아오는 것 보다 한번에 데이터 전부를 받아서 사용자가 처리할 수 있도록 배열로 받는다.
         """
         pass
@@ -881,32 +881,32 @@ class Kiwoom(QAxWidget):
         원형 : void OnReceiveTrData(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sRecordName, LPCTSTR sPreNext, LONG nDataLength, LPCTSTR sErrorCode, LPCTSTR sMessage, LPCTSTR sSplmMsg)
         설명 : 서버통신 후 데이터를 받은 시점을 알려준다.
         입력값 :
-            sScrNo – 화면번호 
-            sRQName – 사용자구분 명 
-            sTrCode – Tran 명 
+            sScrNo – 화면번호
+            sRQName – 사용자구분 명
+            sTrCode – Tran 명
             sRecordName – Record 명
             sPreNext – 연속조회 유무
-            nDataLength – 1.0.0.1 버전 이후 사용하지 않음. 
-            sErrorCode – 1.0.0.1 버전 이후 사용하지 않음. 
-            sMessage – 1.0.0.1 버전 이후 사용하지 않음. 
+            nDataLength – 1.0.0.1 버전 이후 사용하지 않음.
+            sErrorCode – 1.0.0.1 버전 이후 사용하지 않음.
+            sMessage – 1.0.0.1 버전 이후 사용하지 않음.
             sSplmMsg - 1.0.0.1 버전 이후 사용하지 않음.
         반환값 : 없음
-        비고 : 
-            sRQName – CommRqData의 sRQName과 매핑되는 이름이다. 
+        비고 :
+            sRQName – CommRqData의 sRQName과 매핑되는 이름이다.
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
         print("on_receive_tr_data")
         pass
 
-    
+
     # 2) OnReceiveRealData
     def on_receive_real_data(self, jongmok_code, real_type, real_data):
         """
         원형 : void OnReceiveRealData(LPCTSTR sJongmokCode, LPCTSTR sRealType, LPCTSTR sRealData)
         설명 : 실시간데이터를 받은 시점을 알려준다.
         입력값 :
-            sJongmokCode – 종목코드 
-            sRealType – 리얼타입 
+            sJongmokCode – 종목코드
+            sRealType – 리얼타입
             sRealData – 실시간 데이터전문
         반환값 : 없음
         """
@@ -920,14 +920,14 @@ class Kiwoom(QAxWidget):
         원형 : void OnReceiveMsg(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sMsg)
         설명 : 서버통신 후 메시지를 받은 시점을 알려준다.
         입력값 :
-            sScrNo – 화면번호 
-            sRQName – 사용자구분 명 
+            sScrNo – 화면번호
+            sRQName – 사용자구분 명
             sTrCode – Tran 명
             sMsg – 서버메시지
         반환값 : 없음
         비고 :
-            sScrNo – CommRqData의 sScrNo와 매핑된다. 
-            sRQName – CommRqData의 sRQName 와 매핑된다. 
+            sScrNo – CommRqData의 sScrNo와 매핑된다.
+            sRQName – CommRqData의 sRQName 와 매핑된다.
             sTrCode – CommRqData의 sTrCode 와 매핑된다.
         """
         print("on_receive_msg")
@@ -937,15 +937,15 @@ class Kiwoom(QAxWidget):
     # 4) OnReceiveChejanData
     def on_receive_chejan_data(self, gubun, item_cnt, fid_list):
         """
-        원형 : void OnReceiveChejanData(LPCTSTR sGubun, LONG nItemCnt, LPCTSTR sFidList); 
+        원형 : void OnReceiveChejanData(LPCTSTR sGubun, LONG nItemCnt, LPCTSTR sFidList);
         설명 : 체결데이터를 받은 시점을 알려준다.
         입력값 :
-            sGubun – 체결구분 
-            nItemCnt - 아이템갯수 
+            sGubun – 체결구분
+            nItemCnt - 아이템갯수
             sFidList – 데이터리스트
         반환값 : 없음
         비고 :
-            sGubun – 0:주문체결통보, 1:잔고통보, 3:특이신호 
+            sGubun – 0:주문체결통보, 1:잔고통보, 3:특이신호
             sFidList – 데이터 구분은 ';' 이다.
         """
         print("on_receive_chejan_data")
@@ -960,7 +960,7 @@ class Kiwoom(QAxWidget):
         입력값 : LONG nErrCode : 에러 코드
         반환값 : 없음
         비고 :
-            nErrCode가 0이면 로그인 성공, 음수면 실패 
+            nErrCode가 0이면 로그인 성공, 음수면 실패
             음수인 경우는 에러 코드 참조
         """
         print("on_event_connect")
@@ -981,12 +981,12 @@ class Kiwoom(QAxWidget):
         설명 : 조건검색 실시간 편입,이탈 종목을 받을 시점을 알려준다.
         입력값 :
             LPCTSTR strCode : 종목코드
-            LPCTSTR strType : 편입("I"), 이탈("D") 
+            LPCTSTR strType : 편입("I"), 이탈("D")
             LPCTSTR strConditionName : 조건명
             LPCTSTR strConditionIndex : 조건명 인덱스
         반환값 : 없음
-        비고 : 
-            strConditionName에 해당하는 종목이 실시간으로 들어옴. 
+        비고 :
+            strConditionName에 해당하는 종목이 실시간으로 들어옴.
             strType으로 편입된 종목인지 이탈된 종목인지 구분한다.
         """
         print("on_receive_condition")
@@ -1013,9 +1013,9 @@ class Kiwoom(QAxWidget):
     # 8) OnReceiveConditionVer
     def on_receive_condition_ver(self, ret, msg):
         """
-        원형 : void OnReceiveConditionVer(long lRet, LPCTSTR sMsg) 
+        원형 : void OnReceiveConditionVer(long lRet, LPCTSTR sMsg)
         설명 : 로컬에 사용자 조건식 저장 성공 여부를 확인하는 시점
-        입력값 : long lRet - 사용자 조건식 저장 성공여부 (1: 성공, 나머지 실패) 
+        입력값 : long lRet - 사용자 조건식 저장 성공여부 (1: 성공, 나머지 실패)
         반환값 : 없음
         """
         print("on_receive_condition_ver")
@@ -1028,7 +1028,7 @@ class Kiwoom(QAxWidget):
     def signal_event_connect(self, status_code):
         print(status_code["description"])
         self.login_event_loop.exit()
-        
+
     def _get_comm_data(self, code, record_name, index, item_name):
         time.sleep(0.4)
         ret = self.dynamicCall("GetCommData(QString, QString, int, QString", [code,
@@ -1045,11 +1045,11 @@ class Kiwoom(QAxWidget):
         ret = self.dynamicCall("CommGetData(QString, QString, QString, int, QString", code,
                                real_type, field_name, index, item_name)
         return ret.strip()
-    
+
     def call_get_repeat_cnt(self, trcode, rq_name):
         time.sleep(0.4)
         ret = self.dynamicCall("GetRepeatCnt(QString, QString)", trcode, rq_name)
-        
+
         return ret
 
     def _receive_tr_data(self, screen_no, rq_name, trcode, record_name, next, unused1, unused2, unused3, unused4):
@@ -1072,16 +1072,16 @@ class Kiwoom(QAxWidget):
 
     def _opt10060(self, rq_name, trcode):
         data_cnt = self._get_repeat_cnt(trcode, rq_name)
-        
+
         columns = [
             "일자", "현재가", "전일대비", "누적거래대금",
             "개인투자자", "외국인투자자", "기관계", "금융투자",
             "보험", "투신", "기타금융", "은행", "연기금등", "사모펀드",
             "국가", "기타법인", "내외국인"
         ]
-        
+
         self.df = pd.DataFrame(columns=columns)
-        
+
         for i in range(data_cnt):
             self.df.loc[i] = [
               self._get_comm_data(trcode, rq_name, i, "일자"),
@@ -1112,8 +1112,8 @@ class Kiwoom(QAxWidget):
             "보험", "투신", "기타금융", "은행", "연기금등", "사모펀드",
             "국가", "기타법인", "내외국인"
         ]
-        
+
         self.df = pd.DataFrame(df_list, columns=columns)
-        
+
         self.df_list = df_list
     """
