@@ -1,12 +1,15 @@
-from __future__ import
+#-*- coding: utf-8 -*-
+from __future__ import (
     absolute_import, division,
     print_function, unicode_literals
+)
 
-from builtins import
+from builtins import (
     bytes, dict, int, list, object, range, str,
     ascii, chr, hex, input, next, oct, open,
     pow, round, super,
     filter, map, zip
+)
 
 import sys
 import time
@@ -20,23 +23,38 @@ from PyQt5.QtWidgets import *
 from PyQt5.QAxContainer import *
 from PyQt5.QtCore import *
 
-class Kiwoom_Event_Handler:
-    def event_connect(self, error_code):
-        print(error_code['description'])
-
-
+class KWHandler:
+    def __init__(self, function, *variants):
+        self.function = function
+        self.variants = variants
+        self.event_loop = QEventLoop()
+        
 
 class Kiwoom(QAxWidget):
 
     def __init__(self):
         super().__init__()
         self.setControl("KHOPENAPI.KHOpenAPICtrl.1")
-        self.init_connect_events()
+        self._init_connect_events()
 
 
-    def init_connect_events(self):
-        self.OnEventConnect.connect(self.signal_event_connect)
-        self.OnReceiveTrData.connect(self.signal_event_receive_tr_data)
+    def _init_connect_events(self):
+        # 서버 접속 관련 이벤트
+        self.OnEventConnect(self.on_event_connect)
+        # 서버통신 후 데이터를 받은 시점을 알려준다.
+        self.OnReceiveTrData.connect(self.on_receive_tr_data)
+        # 실시간데이터를 받은 시점을 알려준다.
+        self.OnReceiveRealData(self.on_receive_real_data)
+        # 서버통신 후 메시지를 받은 시점을 알려준다.
+        self.OnReceiveMsg(self.on_receive_msg)
+        # 체결데이터를 받은 시점을 알려준다.
+        self.OnReceiveChejanData(self.on_receive_chejan_data)
+        # 조건검색 실시간 편입,이탈 종목을 받을 시점을 알려준다.
+        self.OnReceiveCondition(self.on_receive_condition)
+        # 조건검색 조회응답으로 종목리스트를 구분자(“;”)로 붙어서 받는 시점.
+        self.OnReceiveTrCondition(self.on_receive_tr_condition)
+        # 로컬에 사용자 조건식 저장 성공 여부를 확인하는 시점
+        self.OnReceiveCondigionVer(self.on_receive_condition_ver)
 
 
     # 1) CommConnect
@@ -699,7 +717,7 @@ class Kiwoom(QAxWidget):
 
 
     # 47) CommInvestRqData
-    def _TODO_comm_invest_rq_data(self, market_gb, rq_name, screen_no);
+    def _TODO_comm_invest_rq_data(self, market_gb, rq_name, screen_no):
         """
         원형 : BSTR CommINvestRqData(LPCTSTR sMarketGb, LPCTSTR sRQName, LPCTSTR sScreenNo)
         설명 : 지원하지 않는 함수
@@ -833,6 +851,138 @@ class Kiwoom(QAxWidget):
         """
         pass
 
+
+
+    # 1) OnReceiveTrData
+    def on_receive_tr_data(self, screen_no, rq_name, tr_code, record_name, pre_next, data_length, error_code, message, sp_im_msg):
+        """
+        원형 : void OnReceiveTrData(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sRecordName, LPCTSTR sPreNext, LONG nDataLength, LPCTSTR sErrorCode, LPCTSTR sMessage, LPCTSTR sSplmMsg)
+        설명 : 서버통신 후 데이터를 받은 시점을 알려준다.
+        입력값 :
+            sScrNo – 화면번호 
+            sRQName – 사용자구분 명 
+            sTrCode – Tran 명 
+            sRecordName – Record 명
+            sPreNext – 연속조회 유무
+            nDataLength – 1.0.0.1 버전 이후 사용하지 않음. 
+            sErrorCode – 1.0.0.1 버전 이후 사용하지 않음. 
+            sMessage – 1.0.0.1 버전 이후 사용하지 않음. 
+            sSplmMsg - 1.0.0.1 버전 이후 사용하지 않음.
+        반환값 : 없음
+        비고 : 
+            sRQName – CommRqData의 sRQName과 매핑되는 이름이다. 
+            sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
+        """
+        pass
+
+    
+    # 2) OnReceiveRealData
+    def on_receive_real_data(self, jongmok_code, real_type, real_data):
+        """
+        원형 : void OnReceiveRealData(LPCTSTR sJongmokCode, LPCTSTR sRealType, LPCTSTR sRealData)
+        설명 : 실시간데이터를 받은 시점을 알려준다.
+        입력값 :
+            sJongmokCode – 종목코드 
+            sRealType – 리얼타입 
+            sRealData – 실시간 데이터전문
+        반환값 : 없음
+        """
+        pass
+
+
+    # 3) OnReceiveMsg
+    def on_receive_msg(self, screen_no, rq_name, tr_code, msg):
+        """
+        원형 : void OnReceiveMsg(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sMsg)
+        설명 : 서버통신 후 메시지를 받은 시점을 알려준다.
+        입력값 :
+            sScrNo – 화면번호 
+            sRQName – 사용자구분 명 
+            sTrCode – Tran 명
+            sMsg – 서버메시지
+        반환값 : 없음
+        비고 :
+            sScrNo – CommRqData의 sScrNo와 매핑된다. 
+            sRQName – CommRqData의 sRQName 와 매핑된다. 
+            sTrCode – CommRqData의 sTrCode 와 매핑된다.
+        """
+        pass
+
+
+    # 4) OnReceiveChejanData
+    def on_receive_chejan_data(self, gubun, item_cnt, fid_list):
+        """
+        원형 : void OnReceiveChejanData(LPCTSTR sGubun, LONG nItemCnt, LPCTSTR sFidList); 
+        설명 : 체결데이터를 받은 시점을 알려준다.
+        입력값 :
+            sGubun – 체결구분 
+            nItemCnt - 아이템갯수 
+            sFidList – 데이터리스트
+        반환값 : 없음
+        비고 :
+            sGubun – 0:주문체결통보, 1:잔고통보, 3:특이신호 
+            sFidList – 데이터 구분은 ‘;’ 이다.
+        """
+        pass
+
+
+    # 5) OnEventConnect
+    def on_event_connect(self, err_code):
+        """
+        원형 : void OnEventConnect(LONG nErrCode);
+        설명 : 서버 접속 관련 이벤트
+        입력값 : LONG nErrCode : 에러 코드
+        반환값 : 없음
+        비고 :
+            nErrCode가 0이면 로그인 성공, 음수면 실패 
+            음수인 경우는 에러 코드 참조
+        """
+        pass
+
+
+    # 6) OnReceiveCondition
+    def on_receive_condition(self, code, type, condition_name, condition_index):
+        """
+        원형 : void OnReceiveRealCondition(LPCTSTR strCode, LPCTSTR strType, LPCTSTR strConditionName, LPCTSTR strConditionIndex)
+        설명 : 조건검색 실시간 편입,이탈 종목을 받을 시점을 알려준다.
+        입력값 :
+            LPCTSTR strCode : 종목코드
+            LPCTSTR strType : 편입(“I”), 이탈(“D”) 
+            LPCTSTR strConditionName : 조건명
+            LPCTSTR strConditionIndex : 조건명 인덱스
+        반환값 : 없음
+        비고 : 
+            strConditionName에 해당하는 종목이 실시간으로 들어옴. 
+            strType으로 편입된 종목인지 이탈된 종목인지 구분한다.
+        """
+        pass
+
+
+    # 7) OnReceiveTrCondition
+    def on_receive_tr_condition(self, screen_no, code_list, condition_name, index, next):
+        """
+        원형 : void OnReceiveTrCondition(LPCTSTR sScrNo, LPCTSTR strCodeList, LPCTSTR strConditionName, int nIndex, int nNext)
+        설명 : 조건검색 조회응답으로 종목리스트를 구분자(“;”)로 붙어서 받는 시점.
+        입력값 :
+            LPCTSTR sScrNo : 종목코드
+            LPCTSTR strCodeList : 종목리스트(“;”로 구분)
+            LPCTSTR strConditionName : 조건명
+            int nIndex : 조건명 인덱스
+            int nNext : 연속조회(2:연속조회, 0:연속조회없음)
+        반환값 : 없음
+        """
+        pass
+
+
+    # 8) OnReceiveConditionVer
+    def on_receive_condition_ver(self, ret, msg):
+        """
+        원형 : void OnReceiveConditionVer(long lRet, LPCTSTR sMsg) 
+        설명 : 로컬에 사용자 조건식 저장 성공 여부를 확인하는 시점
+        입력값 : long lRet - 사용자 조건식 저장 성공여부 (1: 성공, 나머지 실패) 
+        반환값 : 없음
+        """
+        pass
 
 
 
