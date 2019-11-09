@@ -1,4 +1,5 @@
 #-*- coding: utf-8 -*-
+
 from __future__ import (
     absolute_import, division,
     print_function, unicode_literals
@@ -25,7 +26,9 @@ from PyQt5.QtCore import *
 
 from constants import KWErrorCode
 
-class Kiwoom(QAxWidget):
+class KWCore(QAxWidget):
+
+    tr_list = {}
 
     def __init__(self):
         super().__init__()
@@ -39,6 +42,8 @@ class Kiwoom(QAxWidget):
         self.OnEventConnect.connect(self.on_event_connect)
 
         # 서버통신 후 데이터를 받은 시점을 알려준다.
+        self.response_comm_rq_data = None
+        self.receive_tr_data_handler = None
         self.loop_receive_tr_data = QEventLoop()
         self.OnReceiveTrData.connect(self.on_receive_tr_data)
 
@@ -80,8 +85,8 @@ class Kiwoom(QAxWidget):
     # !SECTION
 
 
-    # 3) CommRqData -> on_receive_tr_data
-    def _TODO_comm_rq_data(self, rq_name, trcode, prev_next, screen_no):
+    # SECTION 3) CommRqData -> on_receive_tr_data
+    def comm_rq_data(self, rq_name, tr_code, prev_next, screen_no):
         """
         원형 : LONG CommRqData(BSTR sRQName, BSTR sTrCode, long nPrevNext, BSTR sScreenNo)
         설명 : Tran을 서버로 송신한다.
@@ -102,8 +107,9 @@ class Kiwoom(QAxWidget):
             sScreenNo - 4자리의 화면번호
             Ex) openApi.CommRqData( "RQ_1", "OPT00001", 0, "0101");
         """
-        self.dynamicCall("CommRqData(QString, QString, int, QString", rq_name, trcode, prev_next, screen_no)
+        self.response_comm_rq_data = self.dynamicCall("CommRqData(QString, QString, int, QString", rq_name, tr_code, prev_next, screen_no)
         self.loop_receive_tr_data.exec_()
+    # !SECTION 
 
 
     # SECTION 4) GetLoginInfo
@@ -211,8 +217,7 @@ class Kiwoom(QAxWidget):
         # TODO: event_loop 설정
 
 
-    # TODO 테스트 필요
-    # 7) SetInputValue
+    # SECTION 7) SetInputValue
     def set_input_value(self, id, value):
         """
         원형 : void SetInputValue(BSTR sID, BSTR sValue)
@@ -226,6 +231,7 @@ class Kiwoom(QAxWidget):
                 openApi.SetInputValue("계좌번호", "5015123401");
         """
         self.dynamicCall("SetInputValue(QString, QString)", id, value)
+    # !SECTION 
 
 
     # TODO 테스트 필요
@@ -245,7 +251,7 @@ class Kiwoom(QAxWidget):
 
     # TODO 테스트 필요
     # 11) GetRepeatCnt
-    def get_repeat_cnt(self, trcode, record_name):
+    def get_repeat_cnt(self, tr_code, record_name):
         """
         원형 : LONG GetRepeatCnt(LPCTSTR sTrCode, LPCTSTR sRecordName)
         설명 : 레코드 반복횟수를 반환한다.
@@ -255,7 +261,7 @@ class Kiwoom(QAxWidget):
         반환값 : 레코드의 반복횟수
         비고 : Ex) openApi.GetRepeatCnt("OPT00001", "주식기본정보");
         """
-        return self.dynamicCall("GetRepeatCnt(QString, QString)", trcode, record_name)
+        return self.dynamicCall("GetRepeatCnt(QString, QString)", tr_code, record_name)
 
 
     # 12) CommKwRqData
@@ -425,7 +431,7 @@ class Kiwoom(QAxWidget):
 
 
     # 24) GetCommData
-    def _TODO_get_comm_data(self, tr_code, record_name, index, item_name):
+    def get_comm_data(self, tr_code, record_name, index, item_name):
         """
         원형 : BSTR GetCommData(LPCTSTR strTrCode, LPCTSTR strRecordName, long nIndex, LPCTSTR strItemName)
         설명 : 수신 데이터를 반환한다.
@@ -437,7 +443,7 @@ class Kiwoom(QAxWidget):
         반환값 : 수신 데이터
         비고 : Ex)현재가출력 - openApi.GetCommData("OPT00001", "주식기본정보", 0, "현재가");
         """
-        pass
+        return self.dynamicCall("GetCommData(QString, QString, int, QString)", tr_code, record_name, index, item_name).strip()
 
 
     # 25) GetCommRealData
@@ -860,8 +866,8 @@ class Kiwoom(QAxWidget):
         pass
 
 
-    # 55) GetCommDataEx
-    def _TODO_get_comm_data_ex(self, tr_code, record_name):
+    # SECTION 55) GetCommDataEx
+    def get_comm_data_ex(self, tr_code, record_name):
         """
         원형 : VARIANT GetCommDataEx(LPCTSTR strTrCode, LPCTSTR strRecordName)
         설명 : 차트 조회 데이터를 배열로 받아온다.
@@ -871,12 +877,13 @@ class Kiwoom(QAxWidget):
         비고 :
             조회 데이터가 많은 차트 경우 GetCommData()로 항목당 하나씩 받아오는 것 보다 한번에 데이터 전부를 받아서 사용자가 처리할 수 있도록 배열로 받는다.
         """
-        pass
+        print("GetCommDataEx", tr_code, record_name)
+        return self.dynamicCall("GetCommDataEx(QString, QString)", tr_code, record_name)
+    # !SECTION 
 
 
-
-    # 1) OnReceiveTrData
-    def on_receive_tr_data(self, screen_no, rq_name, tr_code, record_name, pre_next, data_length, error_code, message, sp_im_msg):
+    # SECTION 1) OnReceiveTrData
+    def on_receive_tr_data(self, screen_no, rq_name, tr_code, record_name, prev_next, data_length, error_code, message, sp_im_msg):
         """
         원형 : void OnReceiveTrData(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sRecordName, LPCTSTR sPreNext, LONG nDataLength, LPCTSTR sErrorCode, LPCTSTR sMessage, LPCTSTR sSplmMsg)
         설명 : 서버통신 후 데이터를 받은 시점을 알려준다.
@@ -895,8 +902,29 @@ class Kiwoom(QAxWidget):
             sRQName – CommRqData의 sRQName과 매핑되는 이름이다.
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
-        print("on_receive_tr_data")
-        pass
+        print("Called OnReceiveTrData event!", tr_code, rq_name)
+
+        comm_data = None
+        for opt, func in self.tr_list.items():
+            if opt == tr_code:
+                comm_data = func(tr_code, rq_name)
+                break
+
+        response = self.response_comm_rq_data
+        self.receive_tr_data_handler = {
+            "response" : response,
+            "screen_no" : screen_no,
+            "rq_name" : rq_name,
+            "tr_code" : tr_code,
+            "record_name" : record_name,
+            "pre_next" : prev_next,
+            "comm_data" : comm_data
+        }
+
+        if self.loop_receive_tr_data.isRunning():
+            print("Ended OnReceiveTrData event!")
+            self.loop_receive_tr_data.exit()
+    # !SECTION 
 
 
     # 2) OnReceiveRealData
@@ -1046,13 +1074,13 @@ class Kiwoom(QAxWidget):
                                real_type, field_name, index, item_name)
         return ret.strip()
 
-    def call_get_repeat_cnt(self, trcode, rq_name):
+    def call_get_repeat_cnt(self, tr_code, rq_name):
         time.sleep(0.4)
-        ret = self.dynamicCall("GetRepeatCnt(QString, QString)", trcode, rq_name)
+        ret = self.dynamicCall("GetRepeatCnt(QString, QString)", tr_code, rq_name)
 
         return ret
 
-    def _receive_tr_data(self, screen_no, rq_name, trcode, record_name, next, unused1, unused2, unused3, unused4):
+    def _receive_tr_data(self, screen_no, rq_name, tr_code, record_name, next, unused1, unused2, unused3, unused4):
         if next == '2':
             self.remained_data = True
         else:
@@ -1071,7 +1099,7 @@ class Kiwoom(QAxWidget):
             pass
 
     def _opt10060(self, rq_name, trcode):
-        data_cnt = self._get_repeat_cnt(trcode, rq_name)
+        data_cnt = self._get_repeat_cnt(tr_code, rq_name)
 
         columns = [
             "일자", "현재가", "전일대비", "누적거래대금",
@@ -1084,27 +1112,27 @@ class Kiwoom(QAxWidget):
 
         for i in range(data_cnt):
             self.df.loc[i] = [
-              self._get_comm_data(trcode, rq_name, i, "일자"),
-              self._get_comm_data(trcode, rq_name, i, "현재가"),
-              self._get_comm_data(trcode, rq_name, i, "전일대비"),
-              self._get_comm_data(trcode, rq_name, i, "누적거래대금"),
-              self._get_comm_data(trcode, rq_name, i, "개인투자자"),
-              self._get_comm_data(trcode, rq_name, i, "외국인투자자"),
-              self._get_comm_data(trcode, rq_name, i, "기관계"),
-              self._get_comm_data(trcode, rq_name, i, "금융투자"),
-              self._get_comm_data(trcode, rq_name, i, "보험"),
-              self._get_comm_data(trcode, rq_name, i, "투신"),
-              self._get_comm_data(trcode, rq_name, i, "기타금융"),
-              self._get_comm_data(trcode, rq_name, i, "은행"),
-              self._get_comm_data(trcode, rq_name, i, "연기금등"),
-              self._get_comm_data(trcode, rq_name, i, "사모펀드"),
-              self._get_comm_data(trcode, rq_name, i, "국가"),
-              self._get_comm_data(trcode, rq_name, i, "기타법인"),
-              self._get_comm_data(trcode, rq_name, i, "내외국인")
+              self._get_comm_data(tr_code, rq_name, i, "일자"),
+              self._get_comm_data(tr_code, rq_name, i, "현재가"),
+              self._get_comm_data(tr_code, rq_name, i, "전일대비"),
+              self._get_comm_data(tr_code, rq_name, i, "누적거래대금"),
+              self._get_comm_data(tr_code, rq_name, i, "개인투자자"),
+              self._get_comm_data(tr_code, rq_name, i, "외국인투자자"),
+              self._get_comm_data(tr_code, rq_name, i, "기관계"),
+              self._get_comm_data(tr_code, rq_name, i, "금융투자"),
+              self._get_comm_data(tr_code, rq_name, i, "보험"),
+              self._get_comm_data(tr_code, rq_name, i, "투신"),
+              self._get_comm_data(tr_code, rq_name, i, "기타금융"),
+              self._get_comm_data(tr_code, rq_name, i, "은행"),
+              self._get_comm_data(tr_code, rq_name, i, "연기금등"),
+              self._get_comm_data(tr_code, rq_name, i, "사모펀드"),
+              self._get_comm_data(tr_code, rq_name, i, "국가"),
+              self._get_comm_data(tr_code, rq_name, i, "기타법인"),
+              self._get_comm_data(tr_code, rq_name, i, "내외국인")
             ]
 
     def _opt10060_ex(self, rq_name, trcode):
-        df_list = self._get_comm_data_ex(trcode, rq_name)
+        df_list = self._get_comm_data_ex(tr_code, rq_name)
 
         columns = [
             "일자", "현재가", "전일대비", "누적거래대금",
