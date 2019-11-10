@@ -49,7 +49,7 @@ class KWCore(QAxWidget):
         self.OnReceiveConditionVer.connect(self.on_receive_condition_ver)
 
 
-    # SECTION 1) CommConnect
+    # 1) CommConnect
     def comm_connect(self):
         """
         원형 : LONG CommConnect()
@@ -59,10 +59,9 @@ class KWCore(QAxWidget):
         """
         self.dynamicCall("CommConnect()")
         self.loop_event_connect.exec_()
-    # !SECTION
 
 
-    # SECTION 3) CommRqData -> on_receive_tr_data
+    # 3) CommRqData -> on_receive_tr_data
     def comm_rq_data(self, rq_name, tr_code, prev_next, screen_no):
         """
         원형 : LONG CommRqData(BSTR sRQName, BSTR sTrCode, long nPrevNext, BSTR sScreenNo)
@@ -86,10 +85,9 @@ class KWCore(QAxWidget):
         """
         self.response_comm_rq_data = self.dynamicCall("CommRqData(QString, QString, int, QString", rq_name, tr_code, prev_next, screen_no)
         self.loop_receive_tr_data.exec_()
-    # !SECTION
 
 
-    # SECTION 4) GetLoginInfo
+    # 4) GetLoginInfo
     def get_login_info(self, tag):
         """
         원형 : BSTR GetLoginInfo(BSTR sTag)
@@ -107,11 +105,10 @@ class KWCore(QAxWidget):
             Ex) openApi.GetLoginInfo("ACCOUNT_CNT");
         """
         return self.dynamicCall("GetLoginInfo(QString)", tag)
-    # !SECTION
 
 
-    # 5) SendOrder
-    def _TODO_send_order(self, rq_name, screen_no, account_no, order_type, code, qty, price, hoga_gb, org_order_no):
+    # 5) TODO SendOrder
+    def send_order(self, rq_name, screen_no, account_no, order_type, code, qty, price, hoga_gb, org_order_no):
         """
         원형 : LONG SendOrder(
                 BSTR sRQName,
@@ -143,12 +140,12 @@ class KWCore(QAxWidget):
                 매수 정정 - openApi.SendOrder("RQ_1","0101", "5015123410", 5, "000660", 10, 49500, "00", "1");
                 매수 취소 - openApi.SendOrder("RQ_1", "0101", "5015123410", 3, "000660", 10, 0, "00", "2");
         """
-        self.dynamicCall("SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)", tag, screen_no, account_no, order_type, code, qty, price, hoga_gb, org_order_no)
-        # TODO: event_loop 설정
+        # self.dynamicCall("SendOrder(QString, QString, QString, int, QString, int, int, QString, QString)", tag, screen_no, account_no, order_type, code, qty, price, hoga_gb, org_order_no)
+        pass
 
 
-    # 6) SendOrderCredit
-    def _TODO_send_order_credit(self, rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no):
+    # TODO 6) SendOrderCredit
+    def send_order_credit(self, rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no):
         """
         원형 : LONG SendOrderCredit(
                 LPCTSTR sRQName,
@@ -190,11 +187,11 @@ class KWCore(QAxWidget):
 
             나머지 입력값은 SendOrder()함수 설명참고
         """
-        self.dynamicCall("SendOrderCredit(QString, QString, QString, int, QString, int, int, QString, QString)", rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no)
-        # TODO: event_loop 설정
+        # self.dynamicCall("SendOrderCredit(QString, QString, QString, int, QString, int, int, QString, QString)", rq_name, screen_no, acc_no, order_type, code, qty, price, hoga_gb, credit_gb, loan_date, org_order_no)
+        pass
 
 
-    # SECTION 7) SetInputValue
+    # 7) SetInputValue
     def set_input_value(self, id, value):
         """
         원형 : void SetInputValue(BSTR sID, BSTR sValue)
@@ -208,11 +205,9 @@ class KWCore(QAxWidget):
                 openApi.SetInputValue("계좌번호", "5015123401");
         """
         self.dynamicCall("SetInputValue(QString, QString)", id, value)
-    # !SECTION
 
 
-    # TODO 테스트 필요
-    # 10) DisconnectRealData
+    # TODO 10) DisconnectRealData
     def disconnect_real_data(self, screen_no):
         """
         원형 : void DisconnectRealData(LPCTSTR sScnNo)
@@ -223,10 +218,11 @@ class KWCore(QAxWidget):
             화면을 종료할 때 반드시 위 함수를 호출해야 한다.
             Ex) openApi.DisconnectRealData("0101");
         """
-        self.dynamicCall("DisconnectRealData(QString)", screen_no)
+        # self.dynamicCall("DisconnectRealData(QString)", screen_no)
+        pass
 
 
-    # SECTION 11) GetRepeatCnt
+    # TODO 11) GetRepeatCnt
     def get_repeat_cnt(self, tr_code, record_name):
         """
         원형 : LONG GetRepeatCnt(LPCTSTR sTrCode, LPCTSTR sRecordName)
@@ -238,11 +234,10 @@ class KWCore(QAxWidget):
         비고 : Ex) openApi.GetRepeatCnt("OPT00001", "주식기본정보");
         """
         return self.dynamicCall("GetRepeatCnt(QString, QString)", tr_code, record_name)
-    # !SECTION
 
 
-    # 12) CommKwRqData
-    def _TODO_comm_kw_rq_data(self, arr_code, next, code_count, type_flag, rq_name, screen_no):
+    # TODO 12) CommKwRqData
+    def comm_kw_rq_data(self, arr_code, next, code_count, type_flag, rq_name, screen_no):
         """
         원형 : LONG CommKwRqData(LPCTSTR sArrCode, BOOL bNext, int nCodeCount, int nTypeFlag, LPCTSTR sRQName, LPCTSTR sScreenNo)
         설명 : 복수종목조회 Tran을 서버로 송신한다.
@@ -261,11 +256,11 @@ class KWCore(QAxWidget):
             nTypeFlag – 0:주식관심종목정보, 3:선물옵션관심종목정보
             Ex) openApi.CommKwRqData("000660;005930", 0, 2, 0, "RQ_1", "0101");
         """
-        self.dynamicCall("CommKwRqData(QString, bool, int, int, QString, QString)", arr_code, next, code_count, type_flag, rq_name, screen_no)
-        # TODO: event_loop 설정
+        # self.dynamicCall("CommKwRqData(QString, bool, int, int, QString, QString)", arr_code, next, code_count, type_flag, rq_name, screen_no)
+        pass
 
 
-    # SECTION 13) GetAPIModulePath
+    # 13) GetAPIModulePath
     def get_api_module_path(self):
         """
         원형 : BSTR GetAPIModulePath()
@@ -274,10 +269,9 @@ class KWCore(QAxWidget):
         반환값 : 경로
         """
         return self.dynamicCall("GetAPIModulePath()")
-    # !SECTION
 
 
-    # SECTION 14) GetCodeListByMarket
+    # 14) GetCodeListByMarket
     def get_code_list_by_market(self, market):
         """
         원형 : BSTR GetCodeListByMarket(LPCTSTR sMarket)
@@ -286,13 +280,10 @@ class KWCore(QAxWidget):
         반환값 : 종목코드 리스트, 종목간 구분은 ';'이다.
         비고 : sMarket – 0:장내, 3:ELW, 4:뮤추얼펀드, 5:신주인수권, 6:리츠, 8:ETF, 9:하이일드펀드, 10:코스닥, 30:K-OTC, 50:코넥스(KONEX)
         """
-        ret = self.dynamicCall("GetCodeListByMarket(QString)", market)
-
-        return ret.strip().split(';')
-    # !SECTION
+        return self.dynamicCall("GetCodeListByMarket(QString)", market)
 
 
-    # SECTION 15) GetConnectState
+    # 15) GetConnectState
     def get_connect_state(self):
         """
         원형 : LONG GetConnectState()
@@ -302,10 +293,9 @@ class KWCore(QAxWidget):
         비고 : 0:미연결, 1:연결완료
         """
         return self.dynamicCall("GetConnectState()")
-    # !SECTION
 
 
-    # SECTION 16) GetMasterCodeName
+    # 16) GetMasterCodeName
     def get_master_code_name(self, code):
         """
         원형 : BSTR GetMasterCodeName(LPCTSTR strCode)
@@ -315,10 +305,9 @@ class KWCore(QAxWidget):
         비고 : 장내외, 지수선옵, 주식선옵 검색 가능.
         """
         return self.dynamicCall("GetMasterCodeName(QString)", code)
-    # !SECTION
 
 
-    # SECTION 17) GetMasterListedStockCnt
+    # 17) GetMasterListedStockCnt
     def get_master_listed_stock_cnt(self, code):
         """
         원형 : LONG GetMasterListedStockCnt(LPCTSTR strCode)
@@ -327,10 +316,9 @@ class KWCore(QAxWidget):
         반환값 : 상장주식수
         """
         return self.dynamicCall("GetMasterListedStockCnt(QString)", code)
-    # !SECTION
 
 
-    # SECTION 18) GetMasterConstruction
+    # 18) GetMasterConstruction
     def get_master_construction(self, code):
         """
         원형 : BSTR GetMasterConstruction(LPCTSTR strCode)
@@ -340,10 +328,9 @@ class KWCore(QAxWidget):
         비고 : 감리구분 - 정상, 투자주의, 투자경고, 투자위험, 투자주의환기종목
         """
         return self.dynamicCall("GetMasterConstruction(QString)", code)
-    # !SECTION
 
 
-    # SECTION 19) GetMasterListedStockDate
+    # 19) GetMasterListedStockDate
     def get_master_listed_stock_date(self, code):
         """
         원형 : BSTR GetMasterListedStockDate(LPCTSTR strCode)
@@ -353,10 +340,9 @@ class KWCore(QAxWidget):
         비고 :상장일 포멧 – xxxxxxxx[8]
         """
         return self.dynamicCall("GetMasterListedStockDate(QString)", code)
-    # !SECTION
 
 
-    # SECTION 20) GetMasterLastPrice
+    # 20) GetMasterLastPrice
     def get_master_last_price(self, code):
         """
         원형 : BSTR GetMasterLastPrice(LPCTSTR strCode)
@@ -365,10 +351,9 @@ class KWCore(QAxWidget):
         반환값 : 전일가
         """
         return self.dynamicCall("GetMasterLastPrice(QString)", code)
-    # !SECTION
 
 
-    # SECTION 21) GetMasterStockState
+    # 21) GetMasterStockState
     def get_master_stock_state(self, code):
         """
         원형 : BSTR GetMasterStockState(LPCTSTR strCode)
@@ -378,11 +363,9 @@ class KWCore(QAxWidget):
         비고 : 종목상태 – 정상, 증거금100%, 거래정지, 관리종목, 감리종목, 투자유의종목, 담보대출, 액면분할, 신용가능
         """
         return self.dynamicCall("GetMasterStockState(QString)", code)
-    # !SECTION
 
 
-    # TODO 테스트 필요
-    # 22) GetDataCount
+    # TODO 22) GetDataCount
     def get_data_count(self, record_name):
         """
         원형 : LONG GetDataCount(LPCTSTR strRecordName)
@@ -394,8 +377,8 @@ class KWCore(QAxWidget):
         return self.dynamicCall("GetDataCount(QString)", record_name)
 
 
-    # 23) GetOutputValue
-    def _TODO_get_output_value(self, record_name, repeat_idx, item_idx):
+    # TODO 23) GetOutputValue
+    def get_output_value(self, record_name, repeat_idx, item_idx):
         """
         원형 : BSTR GetOutputValue(LPCTSTR strRecordName, long nRepeatIdx, long nItemIdx)
         설명 : 레코드의 반복순서와 아이템의 출력순서에 따라 수신데이터를 반환한다.
@@ -408,7 +391,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # SECTION 24) GetCommData
+    # 24) GetCommData
     def get_comm_data(self, tr_code, record_name, index, item_name):
         """
         원형 : BSTR GetCommData(LPCTSTR strTrCode, LPCTSTR strRecordName, long nIndex, LPCTSTR strItemName)
@@ -422,11 +405,10 @@ class KWCore(QAxWidget):
         비고 : Ex)현재가출력 - openApi.GetCommData("OPT00001", "주식기본정보", 0, "현재가");
         """
         return self.dynamicCall("GetCommData(QString, QString, int, QString)", tr_code, record_name, index, item_name).strip()
-    # !SECTION
 
 
-    # 25) GetCommRealData
-    def _TODO_get_comm_real_data(self, code, fid):
+    # TODO 25) GetCommRealData
+    def get_comm_real_data(self, code, fid):
         """
         원형 : BSTR GetCommRealData(LPCTSTR strCode, long nFid)
         설명 : 실시간 시세 데이터를 반환한다.
@@ -441,8 +423,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 26) GetChejanData
-    def _TODO_get_chejan_data(self, fid):
+    # TODO 26) GetChejanData
+    def get_chejan_data(self, fid):
         """
         원형 : BSTR GetChjanData(long nFid)
         설명 : 체결잔고 데이터를 반환한다.
@@ -453,7 +435,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # SECTION 27) GetThemeGroupList
+    # 27) GetThemeGroupList
     def get_theme_group_list(self, type):
         """
         원형 : BSTR GetThemeGroupList(long nType)
@@ -465,11 +447,10 @@ class KWCore(QAxWidget):
             Ex) 100|태양광_폴리실리콘;152|합성섬유
         """
         return self.dynamicCall("GetThemeGroupList(int)", type)
-    # !SECTION
 
 
-    # 28) GetThemeGroupCode
-    def _TODO_get_theme_group_code(self, theme_code):
+    # TODO 28) GetThemeGroupCode
+    def get_theme_group_code(self, theme_code):
         """
         원형 : BSTR GetThemeGroupCode(LPCTSTR strThemeCode)
         설명 : 테마코드에 소속된 종목코드를 반환한다.
@@ -482,7 +463,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # SECTION 29) GetFutureList
+    # 29) GetFutureList
     def get_future_list(self):
         """
         원형 : BSTR GetFutureList()
@@ -493,10 +474,9 @@ class KWCore(QAxWidget):
             Ex) 101J9000;101JC000
         """
         return self.dynamicCall("GetFutureList()")
-    # !SECTION
 
 
-    # SECTION 30) GetFutureCodeByIndex
+    # 30) GetFutureCodeByIndex
     def get_future_code_by_index(self, index):
         """
         원형 : BSTR GetFutureCodeByIndex(int nIndex)
@@ -508,10 +488,9 @@ class KWCore(QAxWidget):
                 최근월스프레드 - openApi.GetFutureCodeByIndex(4);
         """
         return self.dynamicCall("GetFutureCodeByIndex(int)", index)
-    # !SECTION
 
 
-    # SECTION 31) GetActPriceList
+    # 31) GetActPriceList
     def get_act_price_list(self):
         """
         원형 : BSTR GetActPriceList()
@@ -520,10 +499,9 @@ class KWCore(QAxWidget):
         비고 : 반환값의 행사가간 구분은 ';' Ex) 265.00;262.50;260.00
         """
         return self.dynamicCall("GetActPriceList()")
-    # !SECTION
 
 
-    # SECTION 32) GetMonthList
+    # 32) GetMonthList
     def get_month_list(self):
         """
         원형 : BSTR GetMonthList()
@@ -534,7 +512,6 @@ class KWCore(QAxWidget):
             Ex) 201412;201409;201408;201407;201407;201408;201409;201412
         """
         return self.dynamicCall("GetMonthList()")
-    # !SECTION
 
 
     # 33) GetOptionCode
@@ -569,8 +546,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 35) GetOptionCodeByActPrice
-    def _TODO_get_option_code_by_act_price(self, code, cp, tick):
+    # TODO 35) GetOptionCodeByActPrice
+    def get_option_code_by_act_price(self, code, cp, tick):
         """
         원형 : BSTR GetOptionCodeByActPrice(LPCTSTR strCode, int nCp, int Tick)
         설명 : 입력된 종목코드와 동일한 월물의 코드중 입력한 틱만큼 벌어진 코드를 구한다.
@@ -586,8 +563,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 36) GetSFutureList
-    def _TODO_get_s_future_list(self, base_asset_code):
+    # TODO 36) GetSFutureList
+    def get_s_future_list(self, base_asset_code):
         """
         원형 : BSTR GetSFutureList(LPCTSTR strBaseAssetCode)
         설명 : 주식선물 코드 리스트를 반환한다.
@@ -598,8 +575,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 37) GetSFutureCodeByIndex
-    def _TODO_get_s_future_code_by_index(self, base_asset_code, index):
+    # TODO 37) GetSFutureCodeByIndex
+    def get_s_future_code_by_index(self, base_asset_code, index):
         """
         원형 : BSTR GetSFutureCodeByIndex(LPCTSTR strBaseAssetCode, int nIndex)
         설명 : 주식선물 코드를 반환한다.
@@ -613,8 +590,8 @@ class KWCore(QAxWidget):
 
 
 
-    # 38) GetSActPriceList
-    def _TODO_get_s_act_price_list(self, base_asset_gb):
+    # TODO 38) GetSActPriceList
+    def get_s_act_price_list(self, base_asset_gb):
         """
         원형 : BSTR GetSActPriceList(LPCTSTR strBaseAssetGb)
         설명 : 주식옵션 행사가 리스트를 반환한다.
@@ -625,8 +602,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 39) GetSMonthList
-    def _TODO_get_s_month_list(self, base_asset_gb):
+    # TODO 39) GetSMonthList
+    def get_s_month_list(self, base_asset_gb):
         """
         원형 : BSTR GetSMonthList(LPCTSTR strBaseAssetGb)
         설명 : 주식옵션 월물 리스트를 반환한다.
@@ -637,8 +614,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 40) GetSOptionCode
-    def _TODO_get_s_option_code(self, base_asset_gb, act_price, cp, month):
+    # TODO 40) GetSOptionCode
+    def get_s_option_code(self, base_asset_gb, act_price, cp, month):
         """
         원형 : BSTR GetSOptionCode(LPCTSTR strBaseAssetGb, LPCTSTR strActPrice, int nCp, LPCTSTR strMonth)
         설명 : 주식옵션 코드를 반환한다.
@@ -653,8 +630,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 41) GetSOptionCodeByMonth
-    def _TODO_get_s_option_code_by_month(self, base_asset_gb, code, cp, month):
+    # TODO 41) GetSOptionCodeByMonth
+    def get_s_option_code_by_month(self, base_asset_gb, code, cp, month):
         """
         원형 : BSTR GetSOptionCodeByMonth(LPCTSTR strBaseAssetGb, LPCTSTR strCode, int nCp, LPCTSTR strMonth)
         설명 : 입력한 주식옵션 코드에서 월물만 변경하여 반환한다.
@@ -669,8 +646,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 42) GetSOptionCodeByActPrice
-    def _TODO_get_s_option_code_by_act_price(self, base_asset_gb, code, cp, tick):
+    # TODO 42) GetSOptionCodeByActPrice
+    def get_s_option_code_by_act_price(self, base_asset_gb, code, cp, tick):
         """
         원형 : BSTR GetSOptionCodeByActPrice(LPCTSTR strBaseAssetGb, LPCTSTR strCode, int nCp, int nTick)
         설명 : 입력한 주식옵션 코드에서 행사가만 변경하여 반환한다.
@@ -685,7 +662,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # SECTION 43) GetSFOBasisAssetList
+    # 43) GetSFOBasisAssetList
     def get_s_fo_basis_asset_list(self):
         """
         원형 : BSTR GetSFOBasisAssetList()
@@ -696,10 +673,9 @@ class KWCore(QAxWidget):
         비고 : Ex) openApi.GetSFOBasisAssetList();
         """
         return self.dynamicCall("GetSFOBasisAssetList()")
-    # !SECTION
 
 
-    # SECTION 44) GetOptionATM
+    # 44) GetOptionATM
     def get_option_atm(self):
         """
         원형 : BSTR GetOptionATM()
@@ -708,10 +684,9 @@ class KWCore(QAxWidget):
         비고 : Ex) openApi.GetOptionATM();
         """
         return self.dynamicCall("GetOptionATM()")
-    # !SECTION
 
 
-    # SECTION 46) GetBranchCodeName
+    # 46) GetBranchCodeName
     def get_branch_code_name(self):
         """
         원형 : BSTR GetBranchCodeName()
@@ -720,11 +695,10 @@ class KWCore(QAxWidget):
         비고 : Ex) openApi.GetBranchCodeName();
         """
         return self.dynamicCall("GetBranchCodeName()")
-    # !SECTION
 
 
-    # 47) CommInvestRqData
-    def _TODO_comm_invest_rq_data(self, market_gb, rq_name, screen_no):
+    # TODO 47) CommInvestRqData
+    def comm_invest_rq_data(self, market_gb, rq_name, screen_no):
         """
         원형 : BSTR CommINvestRqData(LPCTSTR sMarketGb, LPCTSTR sRQName, LPCTSTR sScreenNo)
         설명 : 지원하지 않는 함수
@@ -739,8 +713,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 48) SetInfoData
-    def _TODO_set_info_data(self, info_data):
+    # TODO 48) SetInfoData
+    def set_info_data(self, info_data):
         """
         원형 : LONG SetInfoData(LPCTSTR sInfoData)
         설명 : 다수의 아이디로 자동로그인이 필요할 때 사용한다.
@@ -751,8 +725,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 49) SetRealReg
-    def _TODO_set_real_reg(self, screen_no, code_list, fid_list, real_type):
+    # TODO 49) SetRealReg
+    def set_real_reg(self, screen_no, code_list, fid_list, real_type):
         """
         원형 : SetRealReg(LPCTSTR strScreenNo, LPCTSTR strCodeList, LPCTSTR strFidList, LPCTSTR strRealType)
         설명 : 실시간 등록을 한다.
@@ -770,8 +744,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 50) SetRealRemove
-    def _TODO_set_real_remove(self, screen_no, del_code):
+    # TODO 50) SetRealRemove
+    def set_real_remove(self, screen_no, del_code):
         """
         원형 : Void SetRealRemove(LPCTSTR strScrNo, LPCTSTR strDelCode)
         설명 : 종목별 실시간 해제.
@@ -784,8 +758,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 51) GetConditionLoad
-    def _TODO_get_condition_load(self):
+    # TODO 51) GetConditionLoad
+    def get_condition_load(self):
         """
         원형 : long GetConditionLoad()
         설명 : 서버에 저장된 사용자 조건식을 조회해서 임시로 파일에 저장.
@@ -798,8 +772,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 52) GetConditionNameList
-    def _TODO_get_condition_name_list(self):
+    # TODO 52) GetConditionNameList
+    def get_condition_name_list(self):
         """
         원형 : BSTR GetConditionNameList()
         설명 : 조건검색 조건명 리스트를 받아온다.
@@ -811,8 +785,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 53) SendCondition
-    def _TODO_send_condition(self, screen_no, condition_name, index, search):
+    # TODO 53) SendCondition
+    def send_condition(self, screen_no, condition_name, index, search):
         """
         원형 : BOOL SendCondition(LPCTSTR strScrNo, LPCTSTR strConditionName, int nIndex, int nSearch)
         설명 : 조건검색 종목조회TR송신한다.
@@ -830,8 +804,8 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 54) SendConditionStop
-    def _TODO_send_condition_stop(self, screen_no, condition_name, index):
+    # TODO 54) SendConditionStop
+    def send_condition_stop(self, screen_no, condition_name, index):
         """
         원형 : Void SendConditionStop(LPCTSTR strScrNo, LPCTSTR strConditionName, int nIndex)
         설명 : 조건검색 실시간 중지TR을 송신한다.
@@ -845,7 +819,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # SECTION 55) GetCommDataEx
+    # 55) GetCommDataEx
     def get_comm_data_ex(self, tr_code, record_name):
         """
         원형 : VARIANT GetCommDataEx(LPCTSTR strTrCode, LPCTSTR strRecordName)
@@ -858,10 +832,9 @@ class KWCore(QAxWidget):
         """
         print("GetCommDataEx", tr_code, record_name)
         return self.dynamicCall("GetCommDataEx(QString, QString)", tr_code, record_name)
-    # !SECTION
 
 
-    # SECTION 1) OnReceiveTrData
+    # 1) OnReceiveTrData
     def on_receive_tr_data(self, screen_no, rq_name, tr_code, record_name, prev_next, data_length, error_code, message, sp_im_msg):
         """
         원형 : void OnReceiveTrData(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sRecordName, LPCTSTR sPreNext, LONG nDataLength, LPCTSTR sErrorCode, LPCTSTR sMessage, LPCTSTR sSplmMsg)
@@ -888,10 +861,16 @@ class KWCore(QAxWidget):
         comm_data = None
 
         if int(prev_next) == 0:
-            comm_data = self.tr_list[tr_code]["조회"](tr_code, rq_name, 0)
+            assert(tr_code in self.tr_list)
+            # TODO : 전체 데이터 수집을 위해 index가 몇 개까지 존재하는지 확인
+            # for index in range(..):
+            #   self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, index)
+            comm_data = self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, 0)
 
         elif int(prev_next) == 2:
-            comm_data = self.tr_list[tr_code]["연속"](tr_code, rq_name)
+            assert(tr_code in self.tr_list)
+            # TODO : 전체 데이터 수집을 위해 comm_rq_data 재요청 및 재수집
+            comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
 
         else:
             assert(int(prev_next) == 0 or int(prev_next) == 2)
@@ -909,10 +888,9 @@ class KWCore(QAxWidget):
         if self.loop_receive_tr_data.isRunning():
             print("Ended OnReceiveTrData event!")
             self.loop_receive_tr_data.exit()
-    # !SECTION
 
 
-    # 2) OnReceiveRealData
+    # TODO 2) OnReceiveRealData
     def on_receive_real_data(self, jongmok_code, real_type, real_data):
         """
         원형 : void OnReceiveRealData(LPCTSTR sJongmokCode, LPCTSTR sRealType, LPCTSTR sRealData)
@@ -924,10 +902,10 @@ class KWCore(QAxWidget):
         반환값 : 없음
         """
         print("on_receive_real_data")
-        pass
+        assert(False)
 
 
-    # 3) OnReceiveMsg
+    # TODO 3) OnReceiveMsg
     def on_receive_msg(self, screen_no, rq_name, tr_code, msg):
         """
         원형 : void OnReceiveMsg(LPCTSTR sScrNo, LPCTSTR sRQName, LPCTSTR sTrCode, LPCTSTR sMsg)
@@ -944,10 +922,11 @@ class KWCore(QAxWidget):
             sTrCode – CommRqData의 sTrCode 와 매핑된다.
         """
         print("on_receive_msg")
-        pass
+        assert(False)
 
 
-    # 4) OnReceiveChejanData
+
+    # TODO 4) OnReceiveChejanData
     def on_receive_chejan_data(self, gubun, item_cnt, fid_list):
         """
         원형 : void OnReceiveChejanData(LPCTSTR sGubun, LONG nItemCnt, LPCTSTR sFidList);
@@ -962,10 +941,11 @@ class KWCore(QAxWidget):
             sFidList – 데이터 구분은 ';' 이다.
         """
         print("on_receive_chejan_data")
-        pass
+        assert(False)
 
 
-    # 5) OnEventConnect
+
+    # TODO 5) OnEventConnect
     def on_event_connect(self, err_code):
         """
         원형 : void OnEventConnect(LONG nErrCode);
@@ -987,7 +967,7 @@ class KWCore(QAxWidget):
             self.loop_event_connect.exit()
 
 
-    # 6) OnReceiveCondition
+    # TODO 6) OnReceiveCondition
     def on_receive_condition(self, code, type, condition_name, condition_index):
         """
         원형 : void OnReceiveRealCondition(LPCTSTR strCode, LPCTSTR strType, LPCTSTR strConditionName, LPCTSTR strConditionIndex)
@@ -1003,10 +983,11 @@ class KWCore(QAxWidget):
             strType으로 편입된 종목인지 이탈된 종목인지 구분한다.
         """
         print("on_receive_condition")
-        pass
+        assert(False)
 
 
-    # 7) OnReceiveTrCondition
+
+    # TODO 7) OnReceiveTrCondition
     def on_receive_tr_condition(self, screen_no, code_list, condition_name, index, next):
         """
         원형 : void OnReceiveTrCondition(LPCTSTR sScrNo, LPCTSTR strCodeList, LPCTSTR strConditionName, int nIndex, int nNext)
@@ -1020,10 +1001,11 @@ class KWCore(QAxWidget):
         반환값 : 없음
         """
         print("on_receive_tr_condition")
-        pass
+        assert(False)
 
 
-    # 8) OnReceiveConditionVer
+
+    # TODO 8) OnReceiveConditionVer
     def on_receive_condition_ver(self, ret, msg):
         """
         원형 : void OnReceiveConditionVer(long lRet, LPCTSTR sMsg)
@@ -1032,101 +1014,4 @@ class KWCore(QAxWidget):
         반환값 : 없음
         """
         print("on_receive_condition_ver")
-        pass
-
-
-
-
-    """
-    def signal_event_connect(self, status_code):
-        print(status_code["description"])
-        self.login_event_loop.exit()
-
-    def _get_comm_data(self, code, record_name, index, item_name):
-        time.sleep(0.4)
-        ret = self.dynamicCall("GetCommData(QString, QString, int, QString", [code,
-                               record_name, index, item_name])
-        return ret.strip()
-
-    def _get_comm_data_ex(self, code, record_name):
-        time.sleep(0.4)
-        ret = self.dynamicCall("GetCommDataEx(QString, QString", [code, record_name])
-        return ret
-
-    def _comm_get_data(self, code, real_type, field_name, index, item_name):
-        time.sleep(0.4)
-        ret = self.dynamicCall("CommGetData(QString, QString, QString, int, QString", code,
-                               real_type, field_name, index, item_name)
-        return ret.strip()
-
-    def call_get_repeat_cnt(self, tr_code, rq_name):
-        time.sleep(0.4)
-        ret = self.dynamicCall("GetRepeatCnt(QString, QString)", tr_code, rq_name)
-
-        return ret
-
-    def _receive_tr_data(self, screen_no, rq_name, tr_code, record_name, next, unused1, unused2, unused3, unused4):
-        if next == '2':
-            self.remained_data = True
-        else:
-            self.remained_data = False
-
-        if rq_name == "opt10081_req":
-            self._opt10081(rq_name, trcode)
-        elif rq_name == "opt10060_req":
-            self._opt10060(rq_name, trcode)
-        elif rq_name == "opt10060_ex_req":
-            self._opt10060_ex(rq_name, trcode)
-
-        try:
-            self.tr_event_loop.exit()
-        except AttributeError:
-            pass
-
-    def _opt10060(self, rq_name, trcode):
-        data_cnt = self._get_repeat_cnt(tr_code, rq_name)
-
-        columns = [
-            "일자", "현재가", "전일대비", "누적거래대금",
-            "개인투자자", "외국인투자자", "기관계", "금융투자",
-            "보험", "투신", "기타금융", "은행", "연기금등", "사모펀드",
-            "국가", "기타법인", "내외국인"
-        ]
-
-        self.df = pd.DataFrame(columns=columns)
-
-        for i in range(data_cnt):
-            self.df.loc[i] = [
-              self._get_comm_data(tr_code, rq_name, i, "일자"),
-              self._get_comm_data(tr_code, rq_name, i, "현재가"),
-              self._get_comm_data(tr_code, rq_name, i, "전일대비"),
-              self._get_comm_data(tr_code, rq_name, i, "누적거래대금"),
-              self._get_comm_data(tr_code, rq_name, i, "개인투자자"),
-              self._get_comm_data(tr_code, rq_name, i, "외국인투자자"),
-              self._get_comm_data(tr_code, rq_name, i, "기관계"),
-              self._get_comm_data(tr_code, rq_name, i, "금융투자"),
-              self._get_comm_data(tr_code, rq_name, i, "보험"),
-              self._get_comm_data(tr_code, rq_name, i, "투신"),
-              self._get_comm_data(tr_code, rq_name, i, "기타금융"),
-              self._get_comm_data(tr_code, rq_name, i, "은행"),
-              self._get_comm_data(tr_code, rq_name, i, "연기금등"),
-              self._get_comm_data(tr_code, rq_name, i, "사모펀드"),
-              self._get_comm_data(tr_code, rq_name, i, "국가"),
-              self._get_comm_data(tr_code, rq_name, i, "기타법인"),
-              self._get_comm_data(tr_code, rq_name, i, "내외국인")
-            ]
-
-    def _opt10060_ex(self, rq_name, trcode):
-        df_list = self._get_comm_data_ex(tr_code, rq_name)
-
-        columns = [
-            "일자", "현재가", "전일대비", "누적거래대금",
-            "개인투자자", "외국인투자자", "기관계", "금융투자",
-            "보험", "투신", "기타금융", "은행", "연기금등", "사모펀드",
-            "국가", "기타법인", "내외국인"
-        ]
-
-        self.df = pd.DataFrame(df_list, columns=columns)
-
-        self.df_list = df_list
-    """
+        assert(False)
