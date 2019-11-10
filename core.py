@@ -1,26 +1,3 @@
-#-*- coding: utf-8 -*-
-
-from __future__ import (
-    absolute_import, division,
-    print_function, unicode_literals
-)
-
-from builtins import (
-    bytes, dict, int, list, object, range, str,
-    ascii, chr, hex, input, next, oct, open,
-    pow, round, super,
-    filter, map, zip
-)
-
-import sys
-import time
-import datetime
-import os
-
-import pandas as pd
-import numpy as np
-
-from PyQt5.QtWidgets import *
 from PyQt5.QAxContainer import *
 from PyQt5.QtCore import *
 
@@ -32,7 +9,7 @@ class KWCore(QAxWidget):
 
     def __init__(self):
         super().__init__()
-        self.setControl("KHOPENAPI.KHOpenAPICtrl.1")
+        assert(self.setControl("KHOPENAPI.KHOpenAPICtrl.1"))
         self._init_connect_events()
 
 
@@ -109,7 +86,7 @@ class KWCore(QAxWidget):
         """
         self.response_comm_rq_data = self.dynamicCall("CommRqData(QString, QString, int, QString", rq_name, tr_code, prev_next, screen_no)
         self.loop_receive_tr_data.exec_()
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 4) GetLoginInfo
@@ -231,7 +208,7 @@ class KWCore(QAxWidget):
                 openApi.SetInputValue("계좌번호", "5015123401");
         """
         self.dynamicCall("SetInputValue(QString, QString)", id, value)
-    # !SECTION 
+    # !SECTION
 
 
     # TODO 테스트 필요
@@ -249,8 +226,7 @@ class KWCore(QAxWidget):
         self.dynamicCall("DisconnectRealData(QString)", screen_no)
 
 
-    # TODO 테스트 필요
-    # 11) GetRepeatCnt
+    # SECTION 11) GetRepeatCnt
     def get_repeat_cnt(self, tr_code, record_name):
         """
         원형 : LONG GetRepeatCnt(LPCTSTR sTrCode, LPCTSTR sRecordName)
@@ -262,6 +238,7 @@ class KWCore(QAxWidget):
         비고 : Ex) openApi.GetRepeatCnt("OPT00001", "주식기본정보");
         """
         return self.dynamicCall("GetRepeatCnt(QString, QString)", tr_code, record_name)
+    # !SECTION
 
 
     # 12) CommKwRqData
@@ -404,8 +381,9 @@ class KWCore(QAxWidget):
     # !SECTION
 
 
+    # TODO 테스트 필요
     # 22) GetDataCount
-    def _TODO_get_data_count(self, record_name):
+    def get_data_count(self, record_name):
         """
         원형 : LONG GetDataCount(LPCTSTR strRecordName)
         설명 : 레코드의 반복개수를 반환한다.
@@ -413,7 +391,7 @@ class KWCore(QAxWidget):
         반환값 : 레코드 반복개수
         비고 : Ex) openApi.GetDataCount("주식기본정보");
         """
-        pass
+        return self.dynamicCall("GetDataCount(QString)", record_name)
 
 
     # 23) GetOutputValue
@@ -430,7 +408,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # 24) GetCommData
+    # SECTION 24) GetCommData
     def get_comm_data(self, tr_code, record_name, index, item_name):
         """
         원형 : BSTR GetCommData(LPCTSTR strTrCode, LPCTSTR strRecordName, long nIndex, LPCTSTR strItemName)
@@ -444,6 +422,7 @@ class KWCore(QAxWidget):
         비고 : Ex)현재가출력 - openApi.GetCommData("OPT00001", "주식기본정보", 0, "현재가");
         """
         return self.dynamicCall("GetCommData(QString, QString, int, QString)", tr_code, record_name, index, item_name).strip()
+    # !SECTION
 
 
     # 25) GetCommRealData
@@ -879,7 +858,7 @@ class KWCore(QAxWidget):
         """
         print("GetCommDataEx", tr_code, record_name)
         return self.dynamicCall("GetCommDataEx(QString, QString)", tr_code, record_name)
-    # !SECTION 
+    # !SECTION
 
 
     # SECTION 1) OnReceiveTrData
@@ -904,15 +883,21 @@ class KWCore(QAxWidget):
         """
         print("Called OnReceiveTrData event!", tr_code, rq_name)
 
-        comm_data = None
-        for opt, func in self.tr_list.items():
-            if opt == tr_code:
-                comm_data = func(tr_code, rq_name)
-                break
+        assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
 
-        response = self.response_comm_rq_data
+        comm_data = None
+
+        if int(prev_next) == 0:
+            comm_data = self.tr_list[tr_code]["조회"](tr_code, rq_name, 0)
+
+        elif int(prev_next) == 2:
+            comm_data = self.tr_list[tr_code]["연속"](tr_code, rq_name)
+
+        else:
+            assert(int(prev_next) == 0 or int(prev_next) == 2)
+
         self.receive_tr_data_handler = {
-            "response" : response,
+            "response" : self.response_comm_rq_data,
             "screen_no" : screen_no,
             "rq_name" : rq_name,
             "tr_code" : tr_code,
@@ -924,7 +909,7 @@ class KWCore(QAxWidget):
         if self.loop_receive_tr_data.isRunning():
             print("Ended OnReceiveTrData event!")
             self.loop_receive_tr_data.exit()
-    # !SECTION 
+    # !SECTION
 
 
     # 2) OnReceiveRealData
