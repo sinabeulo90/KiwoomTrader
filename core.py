@@ -222,7 +222,7 @@ class KWCore(QAxWidget):
         pass
 
 
-    # TODO 11) GetRepeatCnt
+    # 11) GetRepeatCnt
     def get_repeat_cnt(self, tr_code, record_name):
         """
         원형 : LONG GetRepeatCnt(LPCTSTR sTrCode, LPCTSTR sRecordName)
@@ -854,21 +854,21 @@ class KWCore(QAxWidget):
             sRQName – CommRqData의 sRQName과 매핑되는 이름이다.
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
-        print("Called OnReceiveTrData event!", tr_code, rq_name)
+        print("Called OnReceiveTrData event!", tr_code, rq_name, prev_next)
+        print("get_repeat_cnt", self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name))
 
         assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
+        assert(tr_code in self.tr_list)
 
         comm_data = None
 
         if int(prev_next) == 0:
-            assert(tr_code in self.tr_list)
-            # TODO : 전체 데이터 수집을 위해 index가 몇 개까지 존재하는지 확인
-            # for index in range(..):
-            #   self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, index)
-            comm_data = self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, 0)
+            if self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name):
+                comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
+            else:
+                comm_data = self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, 0)
 
         elif int(prev_next) == 2:
-            assert(tr_code in self.tr_list)
             # TODO : 전체 데이터 수집을 위해 comm_rq_data 재요청 및 재수집
             comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
 
