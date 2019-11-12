@@ -27,6 +27,7 @@ class Opt10007(KWTR):
 
 
     def tr_opt(self, code, prev_next, screen_no):
+	    # 종목코드 = 전문 조회할 종목코드
 
         self.core.set_input_value("종목코드", code)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
