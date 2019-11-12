@@ -14,6 +14,8 @@ class KWTrader(KWCore):
         self.tr_list['opt10006'] = Opt10006(self)
         self.tr_list['opt10007'] = Opt10007(self)
         self.tr_list['opt10008'] = Opt10008(self)
+        self.tr_list['opt10009'] = Opt10009(self)
+        self.tr_list['opt10010'] = Opt10010(self)
 
 
     def connection(self):
@@ -58,3 +60,17 @@ class KWTrader(KWCore):
     # [ opt10008 : 시세표성정보요청 ]
     def opt10008(self, code, prev_next, screen_no):
         return self.tr_list['opt10008'].tr_opt(code, prev_next, screen_no)
+
+
+    # [ OPT10009 : 주식기관요청 ]
+    def opt10009(self, code, prev_next, screen_no):
+        return self.tr_list['opt10009'].tr_opt(code, prev_next, screen_no)
+
+
+    # [ OPT10010 : 업종프로그램요청 ]
+    def opt10010(self, code, prev_next, screen_no):
+        return self.tr_list['opt10010'].tr_opt(code, prev_next, screen_no)
+
+    # NOTE
+    #   장 중에는 OnReceiveTrData, OnReceiveRealData 모두 호출되는 것으로 보임
+    #   실시간 데이터가 언제 호출되며, 어떤 데이터를 얻는지 확인 할 필요 있음

@@ -6,3 +6,5 @@ from tr_option.opt10005 import Opt10005
 from tr_option.opt10006 import Opt10006
 from tr_option.opt10007 import Opt10007
 from tr_option.opt10008 import Opt10008
+from tr_option.opt10009 import Opt10009
+from tr_option.opt10010 import Opt10010
