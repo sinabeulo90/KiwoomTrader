@@ -218,8 +218,7 @@ class KWCore(QAxWidget):
             화면을 종료할 때 반드시 위 함수를 호출해야 한다.
             Ex) openApi.DisconnectRealData("0101");
         """
-        # self.dynamicCall("DisconnectRealData(QString)", screen_no)
-        pass
+        self.dynamicCall("DisconnectRealData(QString)", screen_no)
 
 
     # 11) GetRepeatCnt
@@ -901,9 +900,12 @@ class KWCore(QAxWidget):
             sRealData – 실시간 데이터전문
         반환값 : 없음
         """
-        print("on_receive_real_data")
-        assert(False)
+        print("Called OnReceiveRealData", jongmok_code, real_type, real_data)
 
+        if self.loop_receive_real_data.isRunning():
+            self.loop_receive_real_data.exit()
+            print("Ended OnReceiveRealData")
+            assert(False)
 
     # TODO 3) OnReceiveMsg
     def on_receive_msg(self, screen_no, rq_name, tr_code, msg):
