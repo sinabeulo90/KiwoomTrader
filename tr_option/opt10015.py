@@ -20,8 +20,8 @@ class Opt10015(KWTR):
         # 종목코드 = 전문 조회할 종목코드
         # 시작일자 = YYYYMMDD (20160101 연도4자리, 월 2자리, 일 2자리 형식)
 
-        self.core.set_input_value("종목코드", code)
-        self.core.set_input_value("일자", date)
+        self.core.set_input_value('종목코드', code)
+        self.core.set_input_value('일자', date)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
         return self.core.receive_tr_data_handler

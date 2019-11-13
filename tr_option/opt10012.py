@@ -6,7 +6,7 @@ class Opt10012(KWTR):
     def __init__(self, core):
         super().__init__(core)
 
-        self.rq_name = self.tr_code = "opt10012"
+        self.rq_name = self.tr_code = 'opt10012'
         self.record_name = '주문체결'
         self.header = [
             '주문수량', '주문가격', '미체결수량', '체결누계금액', '원주문번호', '주문구분', '매매구분', '매도수구분', '주문/체결시간', '체결가', '체결량', '주문상태', '단위체결가', 
@@ -21,7 +21,7 @@ class Opt10012(KWTR):
     def tr_opt(self, code, prev_next, screen_no):
         # 계좌번호 = 전문 조회할 보유계좌번호
 
-        self.core.set_input_value("종목코드", code)
+        self.core.set_input_value('종목코드', code)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
         return self.core.receive_tr_data_handler

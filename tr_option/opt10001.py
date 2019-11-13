@@ -6,7 +6,7 @@ class Opt10001(KWTR):
     def __init__(self, core):
         super().__init__(core)
 
-        self.rq_name = self.tr_code = "opt10001"
+        self.rq_name = self.tr_code = 'opt10001'
         self.record_name = '주식기본정보'
         self.header = [
             '종목코드', '종목명', '결산월', '액면가', '자본금', '상장주식', '신용비율',
@@ -21,7 +21,7 @@ class Opt10001(KWTR):
     def tr_opt(self, code, prev_next, screen_no):
 	    # 종목코드 = 전문 조회할 종목코드
 
-        self.core.set_input_value("종목코드", code)
+        self.core.set_input_value('종목코드', code)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
         return self.core.receive_tr_data_handler
