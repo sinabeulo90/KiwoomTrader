@@ -853,15 +853,28 @@ class KWCore(QAxWidget):
             sRQName – CommRqData의 sRQName과 매핑되는 이름이다.
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
-        print("Called OnReceiveTrData event!", tr_code, rq_name, prev_next)
-        print("get_repeat_cnt", self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name))
+        print("Called OnReceiveTrData event!")
+
+        print("[ INFO ]")
+        print("\t screen_no :", screen_no)
+        print("\t rq_name :", rq_name)
+        print("\t tr_code :", tr_code)
+        print("\t record_name :", record_name)
+        print("\t prev_next: ", prev_next)
+        print("\n")
+        print("[ comm_rq_data ]")
+        print("\t response_comm_rq_data :", self.response_comm_rq_data)
+        print("\t get_repeat_cnt :", self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name))
 
         assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
         assert(tr_code in self.tr_list)
 
         comm_data = None
 
-        if int(prev_next) == 0:
+        if not prev_next:
+            print("comm_data Error")
+
+        elif int(prev_next) == 0:
             if self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name):
                 comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
             else:
