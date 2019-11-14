@@ -9,6 +9,7 @@ Trading Option
 - [ ] on_receive_tr_data : prev_next = 2 일 경우, 데이터 연속 요청
 - [ ] opt10012(주문체결요청) : 주문 요청한 이후에 Vadlidation 테스트
 - [x] opt10014(공매도추이요청) : 장 중에 Vadlidation 테스트
+- [ ] opt10016의 input 명 정리 필요
 
 <br>
 
