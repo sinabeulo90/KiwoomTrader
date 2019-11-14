@@ -15,7 +15,7 @@ class Opt10014(KWTR):
 
     def tr_opt(self, code, date_type, date_from, date_to, prev_next, screen_no):
         # 종목코드 = 전문 조회할 종목코드
-	    # 시간구분 = 0:시작일, 1:기간
+	    # 시간구분 = 0:시작일, 1:기간 => 0: 연속 조회, 1: 구간조회
 	    # 시작일자 = YYYYMMDD (20160101 연도4자리, 월 2자리, 일 2자리 형식)
 	    # 종료일자 = YYYYMMDD (20160101 연도4자리, 월 2자리, 일 2자리 형식)
 
