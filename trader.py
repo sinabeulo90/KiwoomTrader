@@ -23,6 +23,9 @@ class KWTrader(KWCore):
         self.tr_list['opt10015'] = Opt10015(self)
         self.tr_list['opt10016'] = Opt10016(self)
         self.tr_list['opt10017'] = Opt10017(self)
+        self.tr_list['opt10018'] = Opt10018(self)
+        self.tr_list['opt10019'] = Opt10019(self)
+        self.tr_list['opt10020'] = Opt10020(self)
 
 
     def connection(self):
@@ -107,3 +110,18 @@ class KWTrader(KWCore):
     # [ opt10017 : 상하한가요청 ]
     def opt10017(self, market_type, input1, input2, input3, input4, input5, input6, prev_next, screen_no):
         return self.tr_list['opt10017'].tr_opt(market_type, input1, input2, input3, input4, input5, input6, prev_next, screen_no)
+
+
+    # [ OPT10018 : 고저가근접요청 ]
+    def opt10018(self, input0, input1, input2, input3, input4, input5, prev_next, screen_no):
+        return self.tr_list['opt10018'].tr_opt(input0, input1, input2, input3, input4, input5, prev_next, screen_no)
+
+
+    # [ opt10019 : 가격급등락요청 ]
+    def opt10019(self, market_type, input1, date_type, date, input4, input5, input6, input7, input8, prev_next, screen_no):
+        return self.tr_list['opt10019'].tr_opt(market_type, input1, date_type, date, input4, input5, input6, input7, input8, prev_next, screen_no)
+
+
+    # [ OPT10020 : 호가잔량상위요청 ]
+    def opt10020(self, market_type, input1, input2, input3, input4, prev_next, screen_no):
+        return self.tr_list['opt10020'].tr_opt(market_type, input1, input2, input3, input4, prev_next, screen_no)
