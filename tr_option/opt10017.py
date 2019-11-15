@@ -7,7 +7,7 @@ class Opt10017(KWTR):
         super().__init__(core)
 
         self.rq_name = self.tr_code = 'opt10017'
-        self.record_name = '신고저가'
+        self.record_name = '상하한가'
         self.header = [
             '종목코드', '종목정보', '종목명', '현재가', '전일대비기호', '전일대비', '등락률', '거래량', '전일거래량', '매도잔량', '매도호가', '매수호가', '매수잔량', '횟수',
         ]
