@@ -19,3 +19,4 @@ from tr_option.opt10018 import Opt10018
 from tr_option.opt10019 import Opt10019
 from tr_option.opt10020 import Opt10020
 from tr_option.opt10021 import Opt10021
+from tr_option.opt10022 import Opt10022
