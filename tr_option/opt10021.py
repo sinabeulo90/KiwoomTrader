@@ -6,7 +6,7 @@ class Opt10021(KWTR):
     def __init__(self, core):
         super().__init__(core)
 
-        self.rq_name = self.tr_code = 'opt10020'
+        self.rq_name = self.tr_code = 'opt10021'
         self.record_name = '호가잔량급증'
         self.header = [
             '종목코드', '종목명', '현재가', '전일대비기호', '전일대비', '기준률', '현재', '급증수량', '급증률', '총매수량',
