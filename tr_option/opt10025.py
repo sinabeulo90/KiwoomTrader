@@ -7,7 +7,7 @@ class Opt10025(KWTR):
         super().__init__(core)
 
         self.rq_name = self.tr_code = 'opt10025'
-        self.record_name = '거래량갱신'
+        self.record_name = '매물대집중'
         self.header = [
             '종목코드', '종목명', '현재가', '전일대비기호', '전일대비', '등락률', '현재거래량', '가격대시작', '가격대끝', '매물량', '매물비',
         ]
