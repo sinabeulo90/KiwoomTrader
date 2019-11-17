@@ -23,3 +23,5 @@ from tr_option.opt10022 import Opt10022
 from tr_option.opt10023 import Opt10023
 from tr_option.opt10024 import Opt10024
 from tr_option.opt10025 import Opt10025
+from tr_option.opt10026 import Opt10026
+from tr_option.opt10027 import Opt10027
