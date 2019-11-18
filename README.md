@@ -10,6 +10,7 @@ Trading Option
 - [ ] opt10012(주문체결요청) : 주문 요청한 이후에 Vadlidation 테스트
 - [x] opt10014(공매도추이요청) : 장 중에 Vadlidation 테스트
 - [ ] opt100XX input 명 정리
+- [ ] opt10028 (시가대비등락률요청) : 장 중에 Validation 테스트
 
 <br>
 
