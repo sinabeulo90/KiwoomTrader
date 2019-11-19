@@ -10,7 +10,7 @@ class Opt10028(KWTR):
         self.record_name = '시가대비등락률'
         self.header = [
             '종목코드', '종목명', '현재가', '전일대비기호', '전일대비', '등락률', '시가', '고가', '저가', '시가대비', '현재거래량', '체결강도',
-            ]
+        ]
 
 
     def tr_opt(self, input0, input1, input2, input3, input4, input5, input6, input7, prev_next, screen_no):

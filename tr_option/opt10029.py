@@ -10,7 +10,7 @@ class Opt10029(KWTR):
         self.record_name = '예상체결등락률상위'
         self.header = [
             '종목코드', '종목명', '예상체결가', '기준가', '전일대비기호', '전일대비', '등락률', '예상체결량', '매도잔량', '매도호가', '매수호가', '매수잔량',
-            ]
+        ]
 
 
     def tr_opt(self, market_type, input1, input2, input3, input4, input5, prev_next, screen_no):
