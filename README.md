@@ -4,13 +4,15 @@
 
 # TODO 
 
-Trading Option
+1. Trading Option
+    - [ ] on_receive_tr_data : prev_next = 2 일 경우, 데이터 연속 요청
+    - [ ] opt10012(주문체결요청) : 주문 요청한 이후에 Vadlidation 테스트
+    - [ ] opt100XX input 명 정리
 
-- [ ] on_receive_tr_data : prev_next = 2 일 경우, 데이터 연속 요청
-- [ ] opt10012(주문체결요청) : 주문 요청한 이후에 Vadlidation 테스트
-- [x] opt10014(공매도추이요청) : 장 중에 Vadlidation 테스트
-- [ ] opt100XX input 명 정리
-- [ ] opt10028 (시가대비등락률요청) : 장 중에 Validation 테스트
+2. 장 중에 Validation 테스트
+    - [x] opt10014 (공매도추이요청)
+    - [ ] opt10028 (시가대비등락률요청)
+    - [ ] opt10035 (외인연속순매매상위요청)
 
 <br>
 
