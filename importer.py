@@ -35,3 +35,4 @@ from tr_option.opt10034 import Opt10034
 from tr_option.opt10035 import Opt10035
 from tr_option.opt10036 import Opt10036
 from tr_option.opt10037 import Opt10037
+from tr_option.opt10038 import Opt10038
