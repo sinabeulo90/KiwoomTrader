@@ -1,4 +1,5 @@
 from tr_option.base import KWTR
+from copy import deepcopy
 
 # [ opt10004 : 주식호가요청 ]
 class Opt10004(KWTR):
@@ -7,8 +8,9 @@ class Opt10004(KWTR):
         super().__init__(core)
 
         self.rq_name = self.tr_code = 'opt10004'
-        self.record_name = '주식호가'
-        self.header = [
+
+        self.record_name_multiple = '주식호가'
+        self.header_multiple = [
             '호가잔량기준시간',
             '매도10차선잔량대비', '매도10차선잔량', '매도10차선호가', '매도9차선잔량대비', '매도9차선잔량', '매도9차선호가', '매도8차선잔량대비', '매도8차선잔량', '매도8차선호가', '매도7차선잔량대비', '매도7차선잔량', '매도7차선호가', '매도6차선잔량대비', '매도6차선잔량', '매도6차선호가',
             '매도5차선잔량대비', '매도5차선잔량', '매도5차선호가', '매도4차선잔량대비', '매도4차선잔량', '매도4차선호가', '매도3차선잔량대비', '매도3차선잔량', '매도3차선호가', '매도2차선잔량대비', '매도2차선잔량', '매도2차선호가', '매도1차선잔량대비', '매도최우선잔량', '매도최우선호가',
@@ -24,24 +26,6 @@ class Opt10004(KWTR):
         self.core.set_input_value('종목코드', code)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
-        return self.core.receive_tr_data_handler
+        self.tr_data = deepcopy(self.core.receive_tr_data_handler[self.tr_code][screen_no])
 
-
-    def tr_opt_data(self, tr_code, rq_name, index):
-        ret = {
-            'header' : self.header,
-            'rows' : [
-                [ self.core.get_comm_data(tr_code, rq_name, index, column) for column in self.header ]
-            ]
-        }
-
-        return ret
-
-
-    def tr_opt_data_ex(self, tr_code, rq_name):
-        ret = {
-            'header' : self.header,
-            'rows' : self.core.get_comm_data_ex(tr_code, rq_name)
-        }
-
-        return ret
+        return self.tr_data

@@ -1,4 +1,5 @@
 from tr_option.base import KWTR
+from copy import deepcopy
 
 # [ OPT10018 : 고저가근접요청 ]
 class Opt10018(KWTR):
@@ -7,8 +8,9 @@ class Opt10018(KWTR):
         super().__init__(core)
 
         self.rq_name = self.tr_code = 'opt10018'
-        self.record_name = '고저가근접'
-        self.header = [
+
+        self.record_name_multiple = '고저가근접'
+        self.header_multiple = [
             '종목코드', '종목명', '현재가', '전일대비기호', '전일대비', '등락률', '거래량', '매도호가', '매수호가', '당일고가', '당일저가',
         ]
 
@@ -29,24 +31,6 @@ class Opt10018(KWTR):
         self.core.set_input_value('신용조건', input5)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
-        return self.core.receive_tr_data_handler
+        self.tr_data = deepcopy(self.core.receive_tr_data_handler[self.tr_code][screen_no])
 
-
-    def tr_opt_data(self, tr_code, rq_name, index):
-        ret = {
-            'header' : self.header,
-            'rows' : [
-                [ self.core.get_comm_data(tr_code, rq_name, index, column) for column in self.header ]
-            ]
-        }
-
-        return ret
-
-
-    def tr_opt_data_ex(self, tr_code, rq_name):
-        ret = {
-            'header' : self.header,
-            'rows' : self.core.get_comm_data_ex(tr_code, rq_name)
-        }
-
-        return ret
+        return self.tr_data

@@ -1,4 +1,5 @@
 from tr_option.base import KWTR
+from copy import deepcopy
 
 # [ opt10037 : 외국계창구매매상위요청 ]
 class Opt10037(KWTR):
@@ -7,8 +8,9 @@ class Opt10037(KWTR):
         super().__init__(core)
 
         self.rq_name = self.tr_code = 'opt10037'
-        self.record_name = '외국계창구매매상위'
-        self.header = [
+
+        self.record_name_multiple = '외국계창구매매상위'
+        self.header_multiple = [
             '순위', '종목코드', '종목명', '현재가', '전일대비기호', '전일대비', '등락율', '매도거래량', '매수거래량', '순매수거래량', '순매수대금', '거래량', '거래대금',
         ]
 
@@ -27,24 +29,6 @@ class Opt10037(KWTR):
         self.core.set_input_value('현재가조건', input4)
         self.core.comm_rq_data(self.rq_name, self.tr_code, prev_next, screen_no)
 
-        return self.core.receive_tr_data_handler
+        self.tr_data = deepcopy(self.core.receive_tr_data_handler[self.tr_code][screen_no])
 
-
-    def tr_opt_data(self, tr_code, rq_name, index):
-        ret = {
-            'header' : self.header,
-            'rows' : [
-                [ self.core.get_comm_data(tr_code, rq_name, index, column) for column in self.header ]
-            ]
-        }
-
-        return ret
-
-
-    def tr_opt_data_ex(self, tr_code, rq_name):
-        ret = {
-            'header' : self.header,
-            'rows' : self.core.get_comm_data_ex(tr_code, rq_name)
-        }
-
-        return ret
+        return self.tr_data
