@@ -20,7 +20,7 @@ class KWCore(QAxWidget):
 
         # 서버통신 후 데이터를 받은 시점을 알려준다.
         self.response_comm_rq_data = None
-        self.receive_tr_data_handler = None
+        self.receive_tr_data_handler = {}
         self.loop_receive_tr_data = QEventLoop()
         self.OnReceiveTrData.connect(self.on_receive_tr_data)
 
@@ -829,7 +829,6 @@ class KWCore(QAxWidget):
         비고 :
             조회 데이터가 많은 차트 경우 GetCommData()로 항목당 하나씩 받아오는 것 보다 한번에 데이터 전부를 받아서 사용자가 처리할 수 있도록 배열로 받는다.
         """
-        print("GetCommDataEx", tr_code, record_name)
         return self.dynamicCall("GetCommDataEx(QString, QString)", tr_code, record_name)
 
 
@@ -853,53 +852,90 @@ class KWCore(QAxWidget):
             sRQName – CommRqData의 sRQName과 매핑되는 이름이다.
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
-        print("Called OnReceiveTrData event!")
+        try:
+            assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
+            assert(tr_code in self.tr_list)
 
-        print("[ INFO ]")
-        print("\t screen_no :", screen_no)
-        print("\t rq_name :", rq_name)
-        print("\t tr_code :", tr_code)
-        print("\t record_name :", record_name)
-        print("\t prev_next: ", prev_next)
-        print("\n")
-        print("[ comm_rq_data ]")
-        print("\t response_comm_rq_data :", self.response_comm_rq_data)
-        print("\t get_repeat_cnt :", self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name))
+            print("~*~ Called OnReceiveTrData event! ~*~")
 
-        assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
-        assert(tr_code in self.tr_list)
+            print("[ INFO ]")
+            print("\t screen_no :", screen_no)
+            print("\t rq_name :", rq_name)
+            print("\t tr_code :", tr_code)
+            print("\t record_name :", record_name)
+            print("\t prev_next: ", prev_next)
+            print("\n")
+            print("[ comm_rq_data ]")
+            print("\t response_comm_rq_data :", self.response_comm_rq_data)
 
-        comm_data = None
+            tr_option = self.tr_list[tr_code]
 
-        if not prev_next:
-            print("comm_data Error")
+            if hasattr(tr_option, 'record_name'):
+                repeat_cnt = self.get_repeat_cnt(tr_code, tr_option.record_name)
+                print("\t get_repeat_cnt(record_name) :", repeat_cnt)
 
-        elif int(prev_next) == 0:
-            if self.get_repeat_cnt(tr_code, self.tr_list[tr_code].record_name):
-                comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
+            if hasattr(tr_option, 'record_name_single'):
+                repeat_cnt_single = self.get_repeat_cnt(tr_code, tr_option.record_name_single)
+                print("\t get_repeat_cnt(record_name_single) :", repeat_cnt_single)
+
+            if hasattr(tr_option, 'record_name_multiple'):
+                repeat_cnt_multiple = self.get_repeat_cnt(tr_code, tr_option.record_name_multiple)
+                print("\t get_repeat_cnt(record_name_multiple) :", repeat_cnt_multiple)
+
+            comm_data = {}
+
+            if not prev_next:
+                print("comm_data Error")
+
+            elif int(prev_next) == 0:
+                # TODO : 싱글 데이터 수집할 때, 전체 index 수집
+                # 싱글 데이터 수집
+                if tr_option.record_name_single:
+                    comm_data['single'] = tr_option.tr_opt_data(tr_code, rq_name, 0)
+                # 멀티 데이터 수집
+                if tr_option.record_name_multiple:
+                    comm_data['multiple'] = tr_option.tr_opt_data_ex(tr_code, rq_name)
+
+            elif int(prev_next) == 2:
+                # TODO : 싱글 데이터 수집할 때, 전체 index 수집
+                # TODO : 전체 멀티 데이터 수집을 위해 comm_rq_data 재요청 및 재수집
+                # 싱글 데이터 수집
+                if tr_option.record_name_single:
+                    comm_data['single'] = tr_option.tr_opt_data(tr_code, rq_name, 0)
+                # 멀티 데이터 수집
+                if tr_option.record_name_multiple:
+                    comm_data['multiple'] = tr_option.tr_opt_data_ex(tr_code, rq_name)
+
             else:
-                comm_data = self.tr_list[tr_code].tr_opt_data(tr_code, rq_name, 0)
+                assert(int(prev_next) == 0 or int(prev_next) == 2)
 
-        elif int(prev_next) == 2:
-            # TODO : 전체 데이터 수집을 위해 comm_rq_data 재요청 및 재수집
-            comm_data = self.tr_list[tr_code].tr_opt_data_ex(tr_code, rq_name)
+            # 데이터 종합
+            if tr_code not in self.receive_tr_data_handler:
+                self.receive_tr_data_handler[tr_code] = {}
 
-        else:
-            assert(int(prev_next) == 0 or int(prev_next) == 2)
+            if screen_no not in self.receive_tr_data_handler[tr_code]:
+                self.receive_tr_data_handler[tr_code][screen_no] = {}
 
-        self.receive_tr_data_handler = {
-            "response" : self.response_comm_rq_data,
-            "screen_no" : screen_no,
-            "rq_name" : rq_name,
-            "tr_code" : tr_code,
-            "record_name" : record_name,
-            "pre_next" : prev_next,
-            "comm_data" : comm_data
-        }
+            self.receive_tr_data_handler[tr_code][screen_no] = {
+                "response" : self.response_comm_rq_data,
+                "rq_name" : rq_name,
+                "tr_code" : tr_code,
+                "record_name" : record_name,
+                "pre_next" : prev_next,
+                "comm_data" : comm_data
+            }
 
-        if self.loop_receive_tr_data.isRunning():
-            print("Ended OnReceiveTrData event!")
-            self.loop_receive_tr_data.exit()
+        except Exception as e:
+            print("\n")
+            print("\t\t\t", "###########################################")
+            print("\t\t\t", e)
+            print("\t\t\t", "###########################################")
+            print("\n")
+
+        finally:
+            print("~*~ Ended OnReceiveTrData event! ~*~")
+            if self.loop_receive_tr_data.isRunning():
+                self.loop_receive_tr_data.exit()
 
 
     # TODO 2) OnReceiveRealData
