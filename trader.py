@@ -44,6 +44,8 @@ class KWTrader(KWCore):
         self.tr_list['opt10036'] = Opt10036(self)
         self.tr_list['opt10037'] = Opt10037(self)
         self.tr_list['opt10038'] = Opt10038(self)
+        self.tr_list['opt10039'] = Opt10039(self)
+        self.tr_list['opt10040'] = Opt10040(self)
 
 
     def connection(self):
@@ -233,3 +235,13 @@ class KWTrader(KWCore):
     # [ opt10038 : 종목별증권사순위요청 ]
     def opt10038(self, code, input1, input2, input3, input4, prev_next, screen_no):
         return self.tr_list['opt10038'].tr_opt(code, input1, input2, input3, input4, prev_next, screen_no)
+
+
+    # [ OPT10039 : 증권사별매매상위요청 ]
+    def opt10039(self, input0, input1, input2, input3, prev_next, screen_no):
+        return self.tr_list['opt10039'].tr_opt(input0, input1, input2, input3, prev_next, screen_no)
+
+
+    # [ opt10040 : 당일주요거래원요청 ]
+    def opt10040(self, code, prev_next, screen_no):
+        return self.tr_list['opt10040'].tr_opt(code, prev_next, screen_no)
