@@ -7,7 +7,7 @@ class Opt10048(KWTR):
     def __init__(self, core):
         super().__init__(core)
 
-        self.rq_name = self.tr_code = 'opt1004'
+        self.rq_name = self.tr_code = 'opt10048'
 
         self.record_name_multiple = 'ELW일별민감도지표'
         self.header_multiple = [
