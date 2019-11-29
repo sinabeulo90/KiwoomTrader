@@ -973,6 +973,7 @@ class KWCore(QAxWidget):
             sTrCode – CommRqData의 sTrCode 와 매핑된다.
         """
         print("on_receive_msg")
+        print(msg)
         assert(False)
 
 
