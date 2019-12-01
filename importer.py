@@ -48,3 +48,5 @@ from tr_option.opt10047 import Opt10047
 from tr_option.opt10048 import Opt10048
 from tr_option.opt10049 import Opt10049
 from tr_option.opt10050 import Opt10050
+from tr_option.opt10051 import Opt10051
+from tr_option.opt10052 import Opt10052
