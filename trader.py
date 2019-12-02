@@ -58,6 +58,9 @@ class KWTrader(KWCore):
         self.tr_list['opt10050'] = Opt10050(self)
         self.tr_list['opt10051'] = Opt10051(self)
         self.tr_list['opt10052'] = Opt10052(self)
+        self.tr_list['opt10053'] = Opt10053(self)
+        # self.tr_list['opt10054'] = Opt10054(self)     # opt10054 : Does not exist.
+        self.tr_list['opt10055'] = Opt10055(self)
 
 
     def connection(self):
@@ -317,3 +320,13 @@ class KWTrader(KWCore):
     # [ opt10052 : 거래원순간거래량요청 ]
     def opt10052(self, input0, code, input2, input3, input4, prev_next, screen_no):
         return self.tr_list['opt10052'].tr_opt(input0, code, input2, input3, input4, prev_next, screen_no)
+
+
+    # [ opt10053 : 당일상위이탈원요청 ]
+    def opt10053(self, code, prev_next, screen_no):
+        return self.tr_list['opt10053'].tr_opt(code, prev_next, screen_no)
+
+
+    # [ opt10052 : 거래원순간거래량요청 ]
+    def opt10055(self, code, input1, prev_next, screen_no):
+        return self.tr_list['opt10055'].tr_opt(code, input1, prev_next, screen_no)
