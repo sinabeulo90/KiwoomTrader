@@ -9,7 +9,7 @@ class Opt10059(KWTR):
 
         self.rq_name = self.tr_code = 'opt10059'
 
-        self.record_name_multiple = '당일전일체결대량'
+        self.record_name_multiple = '종목별투자자기관별'
         self.header_multiple = [
             '일자', '현재가', '대비기호', '전일대비', '등락율', '누적거래량', '누적거래대금', '개인투자자', '외국인투자자', '기관계', '금융투자', '보험', '투신', '기타금융', '은행', '연기금등', '사모펀드', '국가', '기타법인', '내외국인',
         ]
