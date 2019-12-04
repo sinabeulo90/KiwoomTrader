@@ -65,6 +65,8 @@ class KWTrader(KWCore):
         # self.tr_list['opt10057'] = Opt10057(self)     # opt10057 : Does not exist.
         self.tr_list['opt10058'] = Opt10058(self)
         self.tr_list['opt10059'] = Opt10059(self)
+        self.tr_list['opt10060'] = Opt10060(self)
+        self.tr_list['opt10061'] = Opt10061(self)
 
 
     def connection(self):
@@ -344,3 +346,13 @@ class KWTrader(KWCore):
     # [ opt10059 : 종목별투자자기관별요청 ]
     def opt10059(self, date, code, input2, input3, input4, prev_next, screen_no):
         return self.tr_list['opt10059'].tr_opt(date, code, input2, input3, input4, prev_next, screen_no)
+
+
+    # [ opt10060 : 종목별투자자기관별차트요청 ]
+    def opt10060(self, date, code, input2, input3, input4, prev_next, screen_no):
+        return self.tr_list['opt10060'].tr_opt(date, code, input2, input3, input4, prev_next, screen_no)
+
+
+    # [ opt10061 : 종목별투자자기관별합계요청 ]
+    def opt10061(self, code, date_from, date_to, input3, input4, input5, prev_next, screen_no):
+        return self.tr_list['opt10061'].tr_opt(code, date_from, date_to, input3, input4, input5, prev_next, screen_no)

@@ -57,3 +57,5 @@ from tr_option.opt10055 import Opt10055
 # from tr_option.opt10057 import Opt10057   # opt10057 : Does not exist.
 from tr_option.opt10058 import Opt10058
 from tr_option.opt10059 import Opt10059
+from tr_option.opt10060 import Opt10060
+from tr_option.opt10061 import Opt10061
