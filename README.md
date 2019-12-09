@@ -30,6 +30,7 @@
 
 5. 실행 되지 않는 Opt
     - [ ] opt10048 : (ELW일별민감도지표요청)
+    - [ ] opt10070 : (당일주요거래원요청)
 
 6. 기타
     - [ ] 장 중에 CommRqData 호출 할 경우, OnReceiveTrData, OnReceiveRealData 모두 호출되는 것으로 보임.  
