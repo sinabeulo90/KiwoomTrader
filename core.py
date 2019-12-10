@@ -15,6 +15,7 @@ class KWCore(QAxWidget):
 
     def _init_connect_events(self):
         # 서버 접속 관련 이벤트
+        self.response_connect_status = None
         self.loop_event_connect = QEventLoop()
         self.OnEventConnect.connect(self.on_event_connect)
 
@@ -853,6 +854,7 @@ class KWCore(QAxWidget):
             sTrCode – CommRqData의 sTrCode과 매핑되는 이름이다.
         """
         try:
+            assert(self.response_connect_status == KWErrorCode.OP_ERR_NONE)
             assert(KWErrorCode.OP_ERR_NONE == self.response_comm_rq_data)
             assert(tr_code in self.tr_list)
 
@@ -974,7 +976,10 @@ class KWCore(QAxWidget):
         """
         print("on_receive_msg")
         print(msg)
-        assert(False)
+
+        print("~*~ Ended OnReceiveMsg event! ~*~")
+        if self.loop_receive_msg.isRunning():
+            self.loop_receive_msg.exit()
 
 
 
@@ -1009,6 +1014,8 @@ class KWCore(QAxWidget):
             음수인 경우는 에러 코드 참조
         """
         print("on_event_connect")
+
+        self.response_connect_status = int(err_code)
 
         if err_code == KWErrorCode.OP_ERR_NONE:
             print("연결 성공")
