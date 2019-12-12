@@ -13,6 +13,7 @@ class Opt10074(KWTR):
         self.header_single = [
             '총매수금액', '총매도금액', '실현손익', '매매수수료', '매매세금',
         ]
+
         self.record_name_multiple = '일자별실현손익'
         self.header_multiple = [
             '일자', '매수금액', '매도금액', '당일매도손익', '당일매매수수료', '당일매매세금',
