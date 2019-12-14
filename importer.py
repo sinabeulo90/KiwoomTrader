@@ -78,3 +78,5 @@ from tr_option.opt10077 import Opt10077
 from tr_option.opt10078 import Opt10078
 from tr_option.opt10079 import Opt10079
 from tr_option.opt10080 import Opt10080
+from tr_option.opt10081 import Opt10081
+from tr_option.opt10082 import Opt10082

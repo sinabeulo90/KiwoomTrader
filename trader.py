@@ -86,6 +86,8 @@ class KWTrader(KWCore):
         self.tr_list['opt10078'] = Opt10078(self)
         self.tr_list['opt10079'] = Opt10079(self)
         self.tr_list['opt10080'] = Opt10080(self)
+        self.tr_list['opt10081'] = Opt10081(self)
+        self.tr_list['opt10082'] = Opt10082(self)
 
 
     def connection(self):
@@ -471,3 +473,13 @@ class KWTrader(KWCore):
     # [ opt10080 : 주식분봉차트조회요청 ]
     def opt10080(self, code, tick_range, input2, prev_next, screen_no):
         return self.tr_list['opt10080'].tr_opt(code, tick_range, input2, prev_next, screen_no)
+
+
+    # [ opt10081 : 주식일봉차트조회요청 ]
+    def opt10081(self, code, date_from, input2, prev_next, screen_no):
+        return self.tr_list['opt10081'].tr_opt(code, date_from, input2, prev_next, screen_no)
+
+
+    # [ opt10082 : 주식주봉차트조회요청 ]
+    def opt10082(self, code, date_from, date_to, input3, prev_next, screen_no):
+        return self.tr_list['opt10082'].tr_opt(code, date_from, date_to, input3, prev_next, screen_no)
