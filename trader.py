@@ -92,6 +92,14 @@ class KWTrader(KWCore):
         self.tr_list['opt10084'] = Opt10084(self)
         self.tr_list['opt10085'] = Opt10085(self)
         self.tr_list['opt10086'] = Opt10086(self)
+        self.tr_list['opt10087'] = Opt10087(self)
+        # self.tr_list['opt10088'] = Opt10088(self)     # opt10088 : Does not exist.
+        # self.tr_list['opt10089'] = Opt10089(self)     # opt10089 : Does not exist.
+        # self.tr_list['opt10090'] = Opt10090(self)     # opt10090 : Does not exist.
+        # self.tr_list['opt10091'] = Opt10091(self)     # opt10091 : Does not exist.
+        # self.tr_list['opt10092'] = Opt10092(self)     # opt10092 : Does not exist.
+        # self.tr_list['opt10093'] = Opt10093(self)     # opt10093 : Does not exist.
+        self.tr_list['opt10094'] = Opt10094(self)
 
 
     def connection(self):
@@ -507,3 +515,13 @@ class KWTrader(KWCore):
     # [ opt10086 : 일별주가요청 ]
     def opt10086(self, code, input1, input2, prev_next, screen_no):
         return self.tr_list['opt10086'].tr_opt(code, input1, input2, prev_next, screen_no)
+
+
+    # [ opt10087 : 시간외단일가요청 ]
+    def opt10087(self, code, prev_next, screen_no):
+        return self.tr_list['opt10087'].tr_opt(code, prev_next, screen_no)
+
+
+    # [ opt10094 : 주식년봉차트조회요청 ]
+    def opt10094(self, code, date_from, date_to, input3, prev_next, screen_no):
+        return self.tr_list['opt10094'].tr_opt(code, date_from, date_to, input3, prev_next, screen_no)
