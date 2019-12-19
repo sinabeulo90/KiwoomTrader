@@ -92,3 +92,6 @@ from tr_option.opt10087 import Opt10087
 # from tr_option.opt10092 import Opt10092   # opt10092 : Does not exist.
 # from tr_option.opt10093 import Opt10093   # opt10093 : Does not exist.
 from tr_option.opt10094 import Opt10094
+
+from tr_option.opt20001 import Opt20001
+from tr_option.opt20002 import Opt20002
