@@ -97,3 +97,5 @@ from tr_option.opt20001 import Opt20001
 from tr_option.opt20002 import Opt20002
 from tr_option.opt20003 import Opt20003
 from tr_option.opt20004 import Opt20004
+from tr_option.opt20005 import Opt20005
+from tr_option.opt20006 import Opt20006
