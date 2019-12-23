@@ -114,6 +114,12 @@ class KWTrader(KWCore):
         # ...
         # self.tr_list['opt20018'] = Opt20018(self)     # opt10018 : Does not exist.
         self.tr_list['opt20019'] = Opt20019(self)
+        # self.tr_list['opt20020'] = Opt20020(self)     # opt10020 : Does not exist.
+        # ...
+        # self.tr_list['opt20067'] = Opt20067(self)     # opt10067 : Does not exist.
+        self.tr_list['opt20068'] = Opt20068(self)
+
+        self.tr_list['opt30001'] = Opt30001(self)
 
 
     def connection(self):
@@ -589,3 +595,13 @@ class KWTrader(KWCore):
     # [ opt20019 : 업종년봉조회요청 ]
     def opt20019(self, input0, input1, prev_next, screen_no):
         return self.tr_list['opt20019'].tr_opt(input0, input1, prev_next, screen_no)
+
+
+    # [ opt20068 : 대차거래추이요청(종목별) ]
+    def opt20068(self, date_from, date_to, input2, code, prev_next, screen_no):
+        return self.tr_list['opt20068'].tr_opt(date_from, date_to, input2, code, prev_next, screen_no)
+
+
+    # [ OPT30001 : ELW가격급등락요청 ]
+    def opt30001(self, input0, input1, input2, input3, input4, input5, input6, input7, input8, prev_next, screen_no):
+        return self.tr_list['opt30001'].tr_opt(input0, input1, input2, input3, input4, input5, input6, input7, input8, prev_next, screen_no)
