@@ -101,3 +101,8 @@ from tr_option.opt20005 import Opt20005
 from tr_option.opt20006 import Opt20006
 from tr_option.opt20007 import Opt20007
 from tr_option.opt20008 import Opt20008
+from tr_option.opt20009 import Opt20009
+# from tr_option.opt20010 import Opt20010   # opt20010 : Does not exist.
+# ...
+# from tr_option.opt20018 import Opt20018   # opt20018 : Does not exist.
+from tr_option.opt20019 import Opt20019
