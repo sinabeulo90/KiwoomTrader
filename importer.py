@@ -113,3 +113,5 @@ from tr_option.opt20068 import Opt20068
 
 from tr_option.opt30001 import Opt30001
 from tr_option.opt30002 import Opt30002
+from tr_option.opt30003 import Opt30003
+from tr_option.opt30004 import Opt30004

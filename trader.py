@@ -121,6 +121,8 @@ class KWTrader(KWCore):
 
         self.tr_list['opt30001'] = Opt30001(self)
         self.tr_list['opt30002'] = Opt30002(self)
+        self.tr_list['opt30003'] = Opt30003(self)
+        self.tr_list['opt30004'] = Opt30004(self)
 
 
     def connection(self):
@@ -610,4 +612,14 @@ class KWTrader(KWCore):
 
     # [ OPT30002 : 거래원별ELW순매매상위요청 ]
     def opt30002(self, input0, input1, input2, input3, input4, prev_next, screen_no):
-        return self.tr_list['opt30001'].tr_opt(input0, input1, input2, input3, input4, prev_next, screen_no)
+        return self.tr_list['opt30002'].tr_opt(input0, input1, input2, input3, input4, prev_next, screen_no)
+
+
+    # [ OPT30003 : ELWLP보유일별추이요청 ]
+    def opt30003(self, input0, input1, prev_next, screen_no):
+        return self.tr_list['opt30003'].tr_opt(input0, input1, prev_next, screen_no)
+
+
+    # [ OPT30004 : ELW괴리율요청 ]
+    def opt30004(self, input0, input1, input2, input3, input4, prev_next, screen_no):
+        return self.tr_list['opt30004'].tr_opt(input0, input1, input2, input3, input4, prev_next, screen_no)
